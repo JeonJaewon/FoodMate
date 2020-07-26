@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% if lat is None %}
+    {% else %}
+        <div>{{ lat }}</div>
+        <div>{{ lng }}</div>
+    {% endif %}
+    <button>
+        <a href="{% url 'popup' %}">팝업!</a>
+    </button>
+</body>
+</html>
