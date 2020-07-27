@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}
+{% endblock %}
+
+{% block content %}
+<ul>
+    <li>{{object.category}}</li>
+    <li>{{object.author}}</li>
+    <li>{{object.title}}</li>
+    <li>{{object.text}}</li>
+    <li>{{object.count}}</li>
+    <li>{{object.money}}</li>
+    <li>{{object.created}}</li>
+    <li>{{object.updated}}</li>
+    <li>
+        <div class="carousel-inner">
+          {% for image in post.image_set.all %}
+            <img src="{{ image.image.url }}" class="card-img-top" alt="사진">
+          {% endfor %}
+        </div>
+    </li>
+
+</ul>
+
+{% endblock %}
