@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -121,5 +122,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"), # Root의 static 파일
-    # '/garden/static/',	# garden App의 static 파일
+    '/accounts/static/',	# accounts App의 static 파일
 )
+
+# 커스텀 유저 모델 사용
+AUTH_USER_MODEL = 'accounts.User'

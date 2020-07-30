@@ -1,0 +1,16 @@
+#container {
+    width: 408px;
+    margin: 0 auto;
+    margin-top: 5%;
+}
+.input_box {
+    display: inline-block;
+    width: 408px;
+    height: 52px;
+    background-color: #F9F9F9;
+    border: 1px solid #FFBE00;
+    border-radius: 25px;
+    padding-left: 34px;
+    padding-right: 34px;
+    margin: 10px;
+}
