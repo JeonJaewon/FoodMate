@@ -1,4 +1,5 @@
 from django.db import models
+<<<<<<< HEAD
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 
