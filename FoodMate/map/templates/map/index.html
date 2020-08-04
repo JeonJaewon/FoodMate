@@ -1,17 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
     {% if lat is None %}
     {% else %}
+        <div id="map" style=";margin:0 auto;margin-top:50px;width:500px;height:400px;"></div>
         <div>{{ lat }}</div>
         <div>{{ lng }}</div>
     {% endif %}
-    <button>
-        <a href="{% url 'popup' %}">팝업!</a>
-    </button>
-</body>
-</html>
+    <div style="margin-top:50px">
+        <button style="display:block;margin:0 auto;height:200px;width:200px">
+            <a href="{% url 'popup' %}">팝업!</a>
+        </button>
+    </div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df37e89ac92fde8fd129e706be001d3e"></script>
+    <script>
+		var container = document.getElementById('map');
+		var options = {
+			center: new kakao.maps.LatLng({{ lat }}, {{ lng }}),
+			level: 5
+		};
+		var map = new kakao.maps.Map(container, options);
+
+		var marker = new kakao.maps.Marker({
+            position: new kakao.maps.LatLng({{ lat }},{{ lng }})
+        });
+        marker.setMap(map);
+	</script>
+<!--</body>-->
+<!--</html>-->
+{% endblock %}

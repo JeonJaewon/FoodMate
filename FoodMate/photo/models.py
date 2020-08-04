@@ -33,13 +33,13 @@ class Photo(models.Model):
     # 유저
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
     # 제목
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50, default = '')
     # 내용
     text = models.TextField(blank=True)
     # 지역 --> 지도에서 가져오나요?
 
     # 카테고리
-    category = models.CharField(max_length=50, choices=FOOD_CHOICES)
+    category = models.CharField(max_length=50, choices=FOOD_CHOICES, default = '')
     # 개수
     count = models.IntegerField(default=0)
     # 금액
@@ -55,9 +55,9 @@ class Photo(models.Model):
     # 댓글 수
     comment = models.ManyToManyField(User, related_name='favorite_post', blank=True)
     # url
-    #url = models.CharField(max_length=200)
+    url = models.CharField(max_length=200, default = '')
     # 거래 유무
-    deal = models.CharField(max_length=50, choices=FlAG)
+    deal = models.CharField(max_length=50, choices=FlAG, )
 
     def __str__(self):
         return "text : " + self.title
@@ -89,7 +89,10 @@ class Comment(models.Model):
     # 댓글 수정 시, 자동으로 댓글 수정한 날짜 저장
     updated = models.DateTimeField(auto_now=True)
     # 대댓글 기능 구현 위해 대댓글 작성할 특정 댓글 선택
-    parentComment = models.ForeignKey("self", on_delete=models.CASCADE, default="")
+    # parentComment = models.ForeignKey("self", on_delete=models.CASCADE, default="")
+
+    class Meta:
+        ordering = ['updated']
 
     def __str__(self):
         return f"{self.username}님의 댓글"

@@ -11,11 +11,13 @@ from django.contrib.auth.models import User
 from urllib.parse import urlparse
 from .models import Photo,Image
 
-from .forms import PhotoForm, ImageFormSet, ImageForm
+from .forms import PhotoForm, ImageFormSet, ImageForm, CommentForm
 from django.db import transaction
 from django.shortcuts import render
 from django.forms import modelformset_factory
 
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import  login_required
 
 def create(request):
     # ImageFormSet = modelformset_factory(Image, form=ImageForm, extra=4)
@@ -56,8 +58,31 @@ class PhotoDetail(DetailView): #추가 수정 필요
     model = Photo
     template_name_suffix = '_detail'
 
+    def comment_create(request):
+        if request.method == 'POST':
+            form = CommentForm(request.POST, request.FILES)
+
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.username_id = request.user.id
+
+                with transaction.atomic():
+                    comment.save()
+                    return redirect('/')
+        else:
+            comment = CommentForm()
+        return render(request, 'photo/photo_detail.html', {
+                                        'form': form,
+                                        })
 
 
-#def photo_list(request): #카테고리, 지역에 따라 list가 다릅니다
+class PhotoList(ListView):
+    template_name_suffix = '_list'
+    queryset = Photo.objects.all()
 
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+        context = super(PhotoList, self).get_context_data(**kwargs)
 
+        context['object'] = self.queryset
+        return context

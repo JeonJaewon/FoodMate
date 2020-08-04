@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}
+{% endblock %}
+
+{% block content %}
+
+<div class="photo-list container">
+    {% for object in object_list %}
+                <div class="box">
+                    <div class="photo-header">
+                        <!-- 지역 -->
+                    </div>
+                    <div class="photo-img">
+                        {% for image in post.image_set.all %}
+                        <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}">
+<!--                            <img src="{{ object.image.url }}" alt="{{ image.file.image }}">-->
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!-- 댓글 수, 찜 수-->
+                    <div class="photo-content">
+                        <div class="photo-text">
+                            {{ object.title }}
+                        </div>
+                        <div class="photo-created">
+                            {{ object.count }}
+                            {{ object.money }}
+                        </div>
+                    </div>
+                    <div class="photo-comment">
+                        <div class="list">
+                            <a href="{% url 'photo:detail' object.id %}">상세 페이지</a>
+                            {% if user.username == object.author %}
+                            <a href="{% url 'photo:update' object.id %}">수정</a>
+                            <a href="{% url 'photo:delete' object.id %}">삭제</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

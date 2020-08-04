@@ -57,7 +57,7 @@ ROOT_URLCONF = 'FoodMate.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'layout')], #base.html 탬플릿 경로 지정
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,3 +128,6 @@ STATICFILES_DIRS = (
 #이미지가 media 폴더에 지속적으로 저장되도록
 MEDIA_URL = '/res/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+DISQUS_WEBSITE_SHORTNAME = 'foodmate'
+SITE_ID = 1
