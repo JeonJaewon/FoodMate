@@ -1,0 +1,177 @@
+#container {
+    overflow: hidden;
+    margin: 0 auto;
+    margin-top: 5%;
+    text-align: center;
+
+}
+#photo_box{
+    display:inline-block;
+    position: relative;
+    height: 652px;
+    width: 507px;
+
+    background: #F9F9F9;
+    border: 1px solid #FFBE00;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.heading1{
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #000000;
+}
+.heading10{ /* 사진 개수 */
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 26px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #FFBE00;
+}
+
+.input_box {
+    display: inline-block;
+    width: 408px;
+    height: 52px;
+    background-color: #F9F9F9;
+    border: 1px solid #FFBE00;
+    border-radius: 25px;
+    padding-left: 34px;
+    padding-right: 34px;
+    margin: 10px;
+}
+.text_box{
+    width: 490px;
+    height: 166px;
+    margin-left:40px;
+    margin-top: 45px;
+
+    background: #F9F9F9;
+    border-radius: 5px;
+    border: 0 solid #F9F9F9;
+    padding-left: 20px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+
+    color: #000000;
+}
+.title_box{
+    width: 490px;
+    height: 61px;
+    background: #F9F9F9;
+    margin-left:40px;
+    margin-top:18px;
+    padding-left:27px;
+
+    border-radius: 5px;
+    border: 0 solid #F9F9F9;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 61px;
+    align-items: center;
+
+    color: #000000;
+}
+.count_box{
+    width: 24px;
+    height: 35px;
+    border: 0 solid white;
+    position: absolute;
+    left: 100px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 35px;
+    text-align:center;
+
+    color: #FFBE00;
+}
+.money_box{
+    width: 120px;
+    height: 35px;
+    border: 0 solid white;
+    position: absolute;
+    left: 150px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 35px;
+    text-align: right;
+
+    color: #FFBE00;
+
+}
+.category_box{
+    width: 163px;
+    height: 33px;
+    position: absolute;
+    left: 350px;
+
+    border: 1px solid #FFBE00;
+    border-radius: 20.5px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 33px;
+    text-align:center;
+    padding-left: 10px;
+    color: #000000;
+}
+.url_box{
+    position: absolute;
+    width: 1037px;
+
+
+    border: 2px solid #FFBE00;
+    box-sizing: border-box;
+    border-radius: 23.5px;
+}
+.submit_button{
+    display:block;
+    width: 114px;
+    height: 31px;
+    margin-left: 40px;
+    margin-top: 80px;
+
+    background: #FFBE00;
+    border: 2px solid #FFBE00;
+    border-radius: 23.5px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 31px;
+
+    align-items: center;
+    text-align: center;
+
+    color: #FFFFFF;
+}

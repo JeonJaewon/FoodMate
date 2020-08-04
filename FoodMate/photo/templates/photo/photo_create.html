@@ -1,18 +1,32 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-<div class="row">
-    <div class="col"></div>
-    <div class="col-12 col-xl-8 col-md-8">
-        <div class="alert alert-primary" role="alert">
-            모든 부분을 다 채워넣어주세요!!
-        </div>
-        <form action="" method="post" enctype="multipart/form-data">
+        <div id="container">
+            <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ photo_form.as_p }}
-            {{ image_formset.as_p }}
-            <input type="submit" value="Upload" class="btn btn-primary">
-        </form>
-    </div>
-    <div class="col"></div>
-</div>
+                <div id="photo_box">
+                    <div style="position: absolute; width: 214px; height: 215px; left: 27px; top: 21px; background: #E7E7E7;">
+<!--                        {{ image_formset.as_p }}-->
+                        <div style="line-height: 215px;">
+                            <img align="center" src="{% static "img/Group.png" %}"/>
+                        </div>
+                    </div>
+                    <div class="heading10" style="position: absolute; width: 29px; height: 26px; left: 240px;
+top: 536px;">
+                        0/4
+                    </div>
+                    <div class="heading1" style="position: absolute;width: 120px;height: 20px;left: 194px; top: 569px;">
+                        사진을 추가해주세요
+                    </div>
+                </div>
+                <div style="position:relative; overflow:hidden; display:inline-block; height: 652px; width: 547px;">
+                    <input type="submit" value="저장" class="submit_button">
+                    <div>
+                        {{ photo_form.as_p }}
+                    </div>
+                </div>
+            </form>
+        </div>
+
 {% endblock %}

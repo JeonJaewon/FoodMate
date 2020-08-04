@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
-
+from django.conf import settings
 
 class Category(models.Model):
     food = models.CharField(max_length=50)
@@ -31,13 +31,13 @@ FlAG = [
 
 class Photo(models.Model):
     # 유저
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user')
     # 제목
-    title = models.CharField(max_length=50, default = '')
+    title = models.CharField(max_length=13, default = '')
     # 내용
-    text = models.TextField(blank=True)
-    # 지역 --> 지도에서 가져오나요?
-
+    text = models.TextField(max_length=180, default = '')
+    # 지역 --> 지도에서 가져오나요? 사용자가 입력하고, 지도는 위치 보여주기용인듯 합니다!
+    area = models.TextField(max_length=180, default = '')
     # 카테고리
     category = models.CharField(max_length=50, choices=FOOD_CHOICES, default = '')
     # 개수
@@ -51,9 +51,9 @@ class Photo(models.Model):
     # 위도, 경도
     # location = models.ForeignKey(, on_delete=models.CASCADE, related_name='user')
     # 찜
-    like = models.ManyToManyField(User, related_name='like_post', blank=True)
+    like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_post', blank=True)
     # 댓글 수
-    comment = models.ManyToManyField(User, related_name='favorite_post', blank=True)
+    comment = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='favorite_post', blank=True)
     # url
     url = models.CharField(max_length=200, default = '')
     # 거래 유무
@@ -80,7 +80,7 @@ class Image(models.Model):
 class Comment(models.Model):
     photo = models.ForeignKey(Photo,on_delete=models.CASCADE, related_name='comments')
     #현재 로그인한 유저
-    username = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True,
+    username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                                  related_name="comments")
     #댓글 내용
     text = models.TextField(default="")
