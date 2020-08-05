@@ -121,9 +121,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"), # Root의 static 파일
-    '/accounts/static/',	# accounts App의 static 파일
+    os.path.join(BASE_DIR, "static"),# Root의 static 파일
+    '/accounts/static/',# accounts App의 static 파일
+    '/photo/static/',# photo App의 static 파일
 )
 
 # 커스텀 유저 모델 사용

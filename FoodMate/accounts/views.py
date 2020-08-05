@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import get_user_model
 from .forms import CustomUserCreationForm
 from django.contrib.auth.views import auth_login
+from django.contrib import messages
 
 
 def login(request):
@@ -21,10 +22,10 @@ def signup(request):
             return render(request, 'accounts/agreement.html')
         else:
             print(signup_form.errors)
-            print(signup_form.non_field_errors())
+            print(signup_form.non_field_errors)
             signup_form = CustomUserCreationForm()
-            return render(request, 'accounts/signup.html', {'form': signup_form})
+            # messages.error(request, signup_form.non_field_errors())
+            return render(request, 'accounts/signup.html', {'form': signup_form, 'signUpFailed': True})
     else:
         signup_form = CustomUserCreationForm()
-        return render(request, 'accounts/signup.html', {'form': signup_form})
-
+        return render(request, 'accounts/signup.html', {'form': signup_form, 'signUpFailed': False})

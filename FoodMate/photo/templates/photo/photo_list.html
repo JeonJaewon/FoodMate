@@ -1,17 +1,21 @@
 {% extends 'base.html' %}
 
 {% block title %}
+
 {% endblock %}
 
 {% block content %}
-
 {% load static %}
-<head xmlns:height="http://www.w3.org/1999/xhtml">
+<head>
     <link rel="stylesheet" href="{% static 'css/photo_list.css' %}">
 </head>
+
 <div style="margin-top:50px">
     <!--  해당 for문은 data라는 dictionary에서 article은 key, image는 value가 각각 할당되어 반복됨  -->
-    {% for article, image in data.items %}
+    <button id="write_button">게시물 작성하기</button>
+    <div id="category_board"></div>
+    <div class="article_board">
+        {% for article, image in data.items %}
         <div class="article">
             <img src="{{ image }}" style="object-fit: contain; width:100px; height:100px">
             <div>{{ article.title }}</div>
@@ -19,5 +23,6 @@
             <span>{{ article.money }}원</span>
         </div>
     {% endfor %}
+    </div>
 </div>
 {% endblock %}
