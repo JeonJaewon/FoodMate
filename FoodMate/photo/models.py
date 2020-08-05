@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from django.conf import settings
 from django.urls import reverse
 
 
@@ -31,7 +32,7 @@ FlAG = [
 
 class Photo(models.Model):
     # 유저
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='photos')
     # 제목
     title = models.CharField(max_length=50)
     # 내용
@@ -51,9 +52,9 @@ class Photo(models.Model):
     # 위도, 경도
     # location = models.ForeignKey(, on_delete=models.CASCADE, related_name='user')
     # 찜
-    like = models.ManyToManyField(User, related_name='like_post', blank=True)
+    like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_post', blank=True)
     # 댓글 수
-    comment = models.ManyToManyField(User, related_name='favorite_post', blank=True)
+    comment = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='favorite_post', blank=True)
     # url
     #url = models.CharField(max_length=200)
     # 거래 유무
@@ -69,8 +70,9 @@ class Photo(models.Model):
         return reverse('photo:detail', args=[self, id])
 
 
-class Image(models.Model):
-    photo = models.ForeignKey(Photo, on_delete=models.CASCADE, related_name="images_photo")
+# Photo에 삽입된 이미지
+class InsertedImage(models.Model):
+    photo = models.ForeignKey(Photo, on_delete=models.CASCADE, related_name="inserted_image")
     image = models.ImageField(upload_to='timeline_photo/%Y/%m/%d', blank=False)
 
     def __str__(self):
@@ -78,9 +80,9 @@ class Image(models.Model):
 
 #댓글 모델
 class Comment(models.Model):
-    photo = models.ForeignKey(Photo,on_delete=models.CASCADE, related_name='comments')
+    photo = models.ForeignKey(Photo, on_delete=models.CASCADE, related_name='comments')
     #현재 로그인한 유저
-    username = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True,
+    username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                                  related_name="comments")
     #댓글 내용
     text = models.TextField(default="")

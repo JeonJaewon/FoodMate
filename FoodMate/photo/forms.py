@@ -1,5 +1,5 @@
 from django import forms
-from .models import Photo, Image
+from .models import Photo, InsertedImage
 
 
 class PhotoForm(forms.ModelForm):
@@ -13,12 +13,12 @@ class PhotoForm(forms.ModelForm):
         self.fields['title'].label = '제목'
 
 
-class ImageForm(forms.ModelForm):
+class InsertedImageForm(forms.ModelForm):
     image = forms.ImageField(label='')
 
     class Meta:
-        model = Image
+        model = InsertedImage
         fields = ['image', ]
 
 
-ImageFormSet = forms.inlineformset_factory(Photo, Image, form=ImageForm, extra=3)
+ImageFormSet = forms.inlineformset_factory(Photo, InsertedImage, form=InsertedImageForm, extra=3)

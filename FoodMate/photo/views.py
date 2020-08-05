@@ -8,10 +8,11 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.views.generic.base import View
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from urllib.parse import urlparse
-from .models import Photo,Image
+from .models import Photo, InsertedImage
 
-from .forms import PhotoForm, ImageFormSet, ImageForm
+from .forms import PhotoForm, ImageFormSet, InsertedImageForm
 from django.db import transaction
 from django.shortcuts import render
 from django.forms import modelformset_factory
@@ -58,6 +59,16 @@ class PhotoDetail(DetailView): #추가 수정 필요
 
 
 
-#def photo_list(request): #카테고리, 지역에 따라 list가 다릅니다
+def photo_list(request): #카테고리, 지역에 따라 list가 다릅니다\
+    articles = Photo.objects.all()
+    map = {}
+
+    # photo model을 key로 하고, image url을 value로 하는 맵 생성
+    for i in range(1, articles.count()+1):
+        tmp = articles.get(pk=i)
+        obj = (InsertedImage.objects.get(photo=tmp))
+        map[articles.get(pk=i)] = obj.image.url
+
+    return render(request, "photo/photo_list.html", {"data": map})
 
 
