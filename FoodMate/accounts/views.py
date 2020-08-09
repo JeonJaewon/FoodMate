@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, LoginForm
 from django.contrib.auth.views import auth_login
 from django.contrib import messages
 
 
 def login(request):
-    return render(request, 'accounts/login.html')
+    return render(request, 'accounts/login.html', {'form': LoginForm})
 
 
 def agreement(request):

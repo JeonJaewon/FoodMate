@@ -24,3 +24,8 @@
     color: white;
     margin: 10px;
 }
+#bottom_bar{
+    width: 200px;
+    margin: 0 auto;
+    margin-top: 80px;
+}

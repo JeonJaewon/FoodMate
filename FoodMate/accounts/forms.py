@@ -37,11 +37,46 @@ class CustomUserCreationForm(UserCreationForm):
                 }
             )
         }
+
+        # 입력 폼 위의 텍스트
         labels = {
             'email': '',
             'username': '',
             'nickname': ''
         }
+
+        # 입력 폼 아래 도움말
+        help_texts = {
+            'username': ''
+        }
+
+
+class LoginForm(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['username', 'password']  # 로그인 시에는 유저이름과 비밀번호만 입력 받는다.
+        widgets = {
+            'username': forms.TextInput(
+                attrs={
+                    'class': 'input_box',
+                    'placeholder': '아이디'
+                }
+            ),
+            'password': forms.PasswordInput(
+                attrs={
+                    'class': 'input_box',
+                    'placeholder': '비밀번호'
+                }
+            )
+        }
+
+        # 입력 폼 위의 텍스트
+        labels = {
+            'username': '',
+            'password': ''
+        }
+
+        # 입력 폼 아래 도움말
         help_texts = {
             'username': ''
         }
