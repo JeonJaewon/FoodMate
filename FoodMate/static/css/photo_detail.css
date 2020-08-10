@@ -1,0 +1,152 @@
+a { color: black; text-decoration:none; }
+a:visited { color: black; text-decoration: none;}
+a:hover { color: blue; text-decoration: underline;}
+
+
+#container {
+    overflow: hidden;
+    margin: 0 auto;
+    margin-top: 5%;
+    text-align: center;
+}
+.post_text{
+    height: 652px;
+    width: 507px;
+    margin-left: 41px;
+    margin-top: 0px;
+    border-radius: 5px;
+    border: 0 solid white;
+}
+
+#deal_box{
+    display: inline-block;
+    width: 114px;
+    height: 31px;
+    margin-top: 80px;
+
+    background: #FFBE00;
+    border: 2px solid #FFBE00;
+    border-radius: 23.5px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 31px;
+    text-align: center;
+
+    color: #FFFFFF;
+}
+
+#title{
+    width: 490px;
+    height: 61px;
+
+    background: #F9F9F9;
+    border-radius: 5px;
+    padding-left: 20px;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 52px;
+    text-align: left;
+
+    color: #000000;
+}
+
+.yellow{
+    display: inline-block;
+    height: 35px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 35px;
+
+    color: #FFBE00;
+}
+.black1{
+    display: inline-block;
+    height: 35px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 35px;
+    color: #000000;
+
+}
+
+.text{
+    width: 414px;
+    height: 157px;
+    padding-left: 20px;
+    margin-top: 21px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 26px;
+    text-align: left;
+    color: #000000;
+}
+
+.url{
+    margin-top: 21px;
+    width: 144px;
+    height: 30px;
+
+    background: #FFBE00;
+    border-radius: 15px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 30px;
+    text-align: center;
+
+    color: #000000;
+}
+
+.nickname{
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 26px;
+
+    color: #000000;
+}
+
+.time{
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 17px;
+
+    color: #000000;
+}
+.comment_box{
+    width: 558px;
+    height: 48px;
+
+    background: #F9F9F9;
+    border: 2px solid #FFBE00;
+    box-sizing: border-box;
+    border-radius: 24px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 48px;
+    padding-left:23px;
+
+    color: #000000;
+}

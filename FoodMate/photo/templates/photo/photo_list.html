@@ -17,12 +17,12 @@
     <div class="article_board">
         {% for article, image in data.items %}
         <div class="article">
-            <img src="{{ image }}" style="object-fit: fill; width:100px; height:100px">
+            <img src="{{ image }}" style="object-fit: contain; width:100px; height:100px">
             <div>{{ article.title }}</div>
             <span>{{ article.count }}개</span>
             <span>{{ article.money }}원</span>
         </div>
-        {% endfor %}
+    {% endfor %}
     </div>
 </div>
 {% endblock %}

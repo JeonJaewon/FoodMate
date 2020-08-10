@@ -10,13 +10,16 @@ from django.views.generic.base import View
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from urllib.parse import urlparse
-from .models import Photo, InsertedImage
+from .models import Photo, InsertedImage, Comment
 
-from .forms import PhotoForm, ImageFormSet, InsertedImageForm
+from .forms import PhotoForm, ImageFormSet, InsertedImageForm, CommentForm
 from django.db import transaction
 from django.shortcuts import render
 from django.forms import modelformset_factory
 
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import  login_required
+from datetime import datetime
 
 def create(request):
     # ImageFormSet = modelformset_factory(Image, form=ImageForm, extra=4)
@@ -37,7 +40,7 @@ def create(request):
         image_formset = ImageFormSet()
     return render(request, 'photo/photo_create.html', {
                                     'photo_form': photo_form,
-                                    'image_formset':image_formset,
+                                    'image_formset': image_formset,
                                     })
 
 class PhotoDelete(DeleteView):
@@ -53,11 +56,52 @@ class PhotoDelete(DeleteView):
         else:
             return super(PhotoDelete, self).dispatch(request, *args, **kwargs)
 
-class PhotoDetail(DetailView): #추가 수정 필요
+class PhotoDetail(DetailView):
     model = Photo
     template_name_suffix = '_detail'
+    context_object_name = "product"
 
+    #~~시간 전
+    # time = datetime.now()
+    # model.time_now = str(time.month - model.updated.month)
+    # if model.created.day == time.day:
+    #     time_now = str(time.hour - model.created.hour) + "시간 전"
+    # else:
+    #     if model.updated.month == time.month:
+    #         time_now = str(time.day - model.created.day) + "일 전"
+    #     else:
+    #         if model.updated.year == time.year:
+    #             time_now = str(time.month - model.updated.month) + "개월 전"
 
+    def get_context_data(self, **kwargs):
+        # 기본 구현을 호출해 context를 가져온다.
+        context = super().get_context_data(**kwargs)
+        # 모든 책을 쿼리한 집합을 context 객체에 추가한다.
+        context['image'] = InsertedImage.objects.all()
+        context['comment'] =Comment.objects.all()
+
+        return context
+
+def comment_create(request):
+    if request.method == 'POST':
+        photo_form =PhotoForm(request.POST, request.FILES)
+        comment_form = CommentForm(request.POST, request.FILES)
+
+        if photo_form.is_valid() and comment_form.is_valid():
+            photo = photo_form.save(commit=False)
+            comment = comment_form.save(commit=False)
+            comment.username_id = request.user.id
+
+            with transaction.atomic():
+                comment_form.instance = photo
+                comment.save()
+                return redirect('/')
+        else:
+            photo_form = PhotoForm()
+            comment = CommentForm()
+        return render(request, 'photo/photo_detail.html', {
+                                        'comment_form':comment_form
+                                        })
 
 def photo_list(request): #카테고리, 지역에 따라 list가 다릅니다\
     articles = Photo.objects.all()
@@ -70,5 +114,3 @@ def photo_list(request): #카테고리, 지역에 따라 list가 다릅니다\
         map[articles.get(pk=i)] = obj.image.url
 
     return render(request, "photo/photo_list.html", {"data": map})
-
-
