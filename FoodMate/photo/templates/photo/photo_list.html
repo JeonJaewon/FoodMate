@@ -15,7 +15,7 @@
     <button id="write_button">게시물 작성하기</button>
     <div id="category_board"></div>
     <div class="article_board">
-        {% for article, image in data.items %}
+    {% for article, image in data.items %}
         <div class="article">
             <img src="{{ image }}" style="object-fit: contain; width:100px; height:100px">
             <div>{{ article.title }}</div>

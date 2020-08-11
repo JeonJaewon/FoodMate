@@ -1,12 +1,22 @@
-from django.shortcuts import render
-from django.contrib.auth import get_user_model
+from django.shortcuts import render, redirect
+from django.contrib.auth import get_user_model, authenticate, login as django_login
 from .forms import CustomUserCreationForm, LoginForm
-from django.contrib.auth.views import auth_login
 from django.contrib import messages
 
 
 def login(request):
-    return render(request, 'accounts/login.html', {'form': LoginForm})
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            django_login(request, user)
+            return redirect('photo:list')
+        else:
+            print("invalid")
+            return render(request, 'accounts/login.html', {'form': LoginForm})
+    else:
+        return render(request, 'accounts/login.html', {'form': LoginForm})
 
 
 def agreement(request):
@@ -18,7 +28,7 @@ def signup(request):
         signup_form = CustomUserCreationForm(request.POST)
         if signup_form.is_valid():
             user = signup_form.save()
-            auth_login(request, user)
+            django_login(request, user)
             return render(request, 'accounts/agreement.html')
         else:
             print(signup_form.errors)
