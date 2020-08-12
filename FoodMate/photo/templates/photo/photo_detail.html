@@ -21,7 +21,11 @@
 
     <div class="post_text" style="display: inline-block; margin-bottom: 65px;">
         <div style="text-align: left;">
-            <p id="deal_box">모집 중</p>
+            {% if product.deal == "Y" %}
+            <p class="deal_box"> 모집 중 </p>
+            {% else %}
+            <p class="deal_box"> 모집 완료 </p>
+            {% endif %}
             <img style="display: inline-block; margin-left:255px;" src="{% static 'img/comment.png' %}"/>
             <img style="display: inline-block; margin-left: 50px;" src="{% static 'img/heart.png' %}"/>
         </div>
@@ -71,32 +75,41 @@
 
     <hr style="width: 1037px; border: 1px solid #000000; margin: 0 auto;">
 
-    <div style="width: 1037px; margin: 0 auto;">
+    <div style="width: 1037px; margin: 0 auto; margin-bottom: 98px;">
         {% for commentList in comment.all %}
         {% if product == commentList.photo %}
-        <div style="margin-top: 17px; text-align: left; margin-bottom: 17px;">
-            <div>
-                <img style="margin-left: 25px; width: 40.73px; height: 40.73px;" src="{% static 'img/user_photo.png' %}"/>
-                <span class="nickname" style="display: inline-block; margin-left: 22.27px;"> {{ commentList.username }}</span>
-                <span class="time" style="display: inline-block; margin-left: 13px;"> {{ commentList.updated }}</span>
-            </div>
-            <div class="comment_box" style="display: inline-block; margin-top: 10px; margin-left:90px;">
-                {{ commentList.text }}
-            </div>
-            <img style="display: inline-block; margin-left:355px;" src="{% static 'img/comment_menu.png' %}"/>
-
-        </div>
-        {% endif %}
-        {% if product.author == commentList.username %}
-
+            {% if product.author == commentList.username %}
+                <div style="margin-top: 17px; text-align: left;">
+                    <img style="display: inline-block; width: 31.76px; height: 24.24px; margin-left:150px;" src="{% static 'img/arrow.png' %}"/>
+                    <img style="margin-left: 25px; width: 40.73px; height: 40.73px;" src="{% static 'img/user_photo.png' %}"/>
+                    <span class="nickname" style="display: inline-block; margin-left: 22.27px;"> {{ commentList.username }}</span>
+<!--                    <span class="time" style="display: inline-block; margin-left: 13px;"> {{ commentList.updated }}</span>-->
+                    <span class="user_comment_box"> {{ commentList.text }} </span>
+                    <img style="display: inline-block; margin-left:116px;" src="{% static 'img/comment_menu.png' %}"/>
+                </div>
+            {% else %}
+                <div style="margin-top: 17px; text-align: left;">
+                    <div>
+                        <img style="margin-left: 25px; width: 40.73px; height: 40.73px;" src="{% static 'img/user_photo.png' %}"/>
+                        <span class="nickname" style="display: inline-block; margin-left: 22.27px;"> {{ commentList.username }}</span>
+                        <span class="time" style="display: inline-block; margin-left: 13px;"> {{ commentList.updated }}</span>
+                    </div>
+                    <div class="comment_box" style="display: inline-block; margin-top: 10px; margin-left:90px;">
+                        {{ commentList.text }}
+                    </div>
+                    <img style="display: inline-block; margin-left:355px;" src="{% static 'img/comment_menu.png' %}"/>
+                </div>
+            {% endif %}
         {% endif %}
     {% endfor %}
+        <div style="position: relative;">
+            <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="보내기" class="comment_button">
+        </form>
+        </div>
     </div>
 
-    <form action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ comment_form.as_p }}
-        <input type="submit" value="댓글" class="btn btn-primary">
-    </form>
 </div>
 {% endblock %}

@@ -18,7 +18,7 @@ a:hover { color: blue; text-decoration: underline;}
     border: 0 solid white;
 }
 
-#deal_box{
+.deal_box{
     display: inline-block;
     width: 114px;
     height: 31px;
@@ -149,4 +149,63 @@ a:hover { color: blue; text-decoration: underline;}
     padding-left:23px;
 
     color: #000000;
+}
+
+.user_comment_box{
+    display: inline-block;
+    width: 558px;
+    height: 48px;
+
+    background: #FFBE00;
+    border-radius: 29px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 48px;
+    text-align: left;
+    padding-left: 23px;
+    color: #000000;
+
+}
+
+.text_box{
+    display: inline-block;
+    width: 1037px;
+    height: 47px;
+    margin-top: 41px;
+
+    border: 2px solid #FFBE00;
+    border-radius: 23.5px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 47px;
+    text-align: center;
+
+    color: #000000;
+}
+
+.comment_button{
+    position: absolute;
+    top: 49.2px;
+    right: 9px;
+    width: 83px;
+    height: 31px;
+
+    background: #FFBE00;
+    border-radius: 15.5px;
+    border: 0px solid white;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+
+    text-align: center;
+    color: #FFFFFF;
+
 }

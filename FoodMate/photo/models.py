@@ -95,8 +95,5 @@ class Comment(models.Model):
     # 대댓글 기능 구현 위해 대댓글 작성할 특정 댓글 선택
     # parentComment = models.ForeignKey("self", on_delete=models.CASCADE, default="")
 
-    class Meta:
-        ordering = ['updated']
-
     def __str__(self):
         return f"{self.username}님의 댓글"
