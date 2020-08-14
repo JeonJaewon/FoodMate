@@ -20,6 +20,8 @@ from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import  login_required
 from datetime import datetime
+from django.views.generic.edit import FormMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def create(request):
     # ImageFormSet = modelformset_factory(Image, form=ImageForm, extra=4)
@@ -56,10 +58,11 @@ class PhotoDelete(DeleteView):
         else:
             return super(PhotoDelete, self).dispatch(request, *args, **kwargs)
 
-class PhotoDetail(DetailView):
+class PhotoDetail(LoginRequiredMixin, FormMixin, DetailView):
     model = Photo
     template_name_suffix = '_detail'
     context_object_name = "product"
+    form_class = CommentForm
 
     #~~시간 전
     # time = datetime.now()
@@ -73,35 +76,33 @@ class PhotoDetail(DetailView):
     #         if model.updated.year == time.year:
     #             time_now = str(time.month - model.updated.month) + "개월 전"
 
+    def get_success_url(self):	# post처리가 성공한뒤 행할 행동
+        return reverse('photo:detail', kwargs={'pk': self.object.pk})
+
     def get_context_data(self, **kwargs):
         # 기본 구현을 호출해 context를 가져온다.
         context = super().get_context_data(**kwargs)
         # 모든 책을 쿼리한 집합을 context 객체에 추가한다.
         context['image'] = InsertedImage.objects.all()
+        context['form'] = CommentForm()
         context['comment'] =Comment.objects.all()
 
         return context
 
-def comment_create(request):
-    if request.method == 'POST':
-        photo_form = PhotoForm(request.POST, request.FILES)
-        comment_form = CommentForm(request.POST, request.FILES)
-
-        if photo_form.is_valid() and comment_form.is_valid():
-            photo = photo_form.save(commit=False)
-            comment = comment_form.save(commit=False)
-            comment.username_id = request.user.id
-
-            with transaction.atomic():
-                comment_form.instance = photo
-                comment.save()
-                return redirect('/')
+    def post(self, request, *args, **kwargs):	# post요청이 들어왔을때.
+        self.object = self.get_object()		# 현재페이지 object get.
+        form = self.get_form()		# form데이터 받아오기
+        if form.is_valid():			# form의 내용이 정상적일 경우
+            return self.form_valid(form)	#form_valid함수 콜
         else:
-            photo_form = PhotoForm()
-            comment = CommentForm()
-        return render(request, 'photo/photo_detail.html', {
-                                        'comment_form':comment_form
-                                        })
+            return self.form_invalid(form)
+
+    def form_valid(self, form):	# form_valid함수
+        comment = form.save(commit=False)	# form데이터를 저장. 그러나 쿼리실행은 x
+        comment.photo = get_object_or_404(Photo, pk=self.object.pk) # photo object를 call하여 photocomment의 photo로 설정(댓글이 속할 게시글 설정) pk로 pk설정 pk - photo id
+        comment.username = self.request.user	# 댓글쓴 사람 설정.
+        comment.save()	# 수정된 내용대로 저장. 쿼리실행
+        return super(PhotoDetail, self).form_valid(form)
 
 
 def photo_list(request): #카테고리, 지역에 따라 list가 다릅니다\
