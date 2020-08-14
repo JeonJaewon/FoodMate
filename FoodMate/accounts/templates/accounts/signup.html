@@ -8,23 +8,27 @@
     <link rel="stylesheet" href="{% static 'css/signup.css' %}">
 </head>
 <body>
-    <img style="display:block; margin:0 auto; margin-top:5%;" src="{% static "img/logo.png" %}"/>
-    {% if signUpFailed %}
-    <div class="alert alert-primary" role="alert">
-        유효하지 않은 입력입니다. 다시 입력해 주세요.
-    </div>
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
     {% endif %}
+
+    <img style="display:block; margin:0 auto; margin-top:5%;" src="{% static "img/logo.png" %}"/>
     <div id="container">
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
-<!--            <input name="email" type="text" placeholder="아이디(이메일)" class="input_box"/>-->
-<!--&lt;!&ndash;            <input name="password" type="text" placeholder="비밀번호" class="input_box"/>&ndash;&gt;-->
-<!--            <input name="password1" type="text" placeholder="비밀번호" class="input_box"/>-->
-<!--            <input name="password2" type="text" placeholder="비밀번호 확인" class="input_box"/>-->
-<!--            <input name="name" type="text" placeholder="이름" class="input_box"/>-->
-<!--            <input name="nickname" type="text" placeholder="닉네임" class="input_box"/>-->
-            <input type="submit" placeholder="확인">
+            <input id="submit_btn" type="submit" placeholder="확인">
         </form>
     </div>
 

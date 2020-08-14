@@ -1,10 +1,11 @@
 from django import forms
 from .models import Photo, InsertedImage, Comment
 
+
 class PhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
-        fields = ['title','count','money','category','text','area','url' ]
+        fields = ['title', 'count', 'money', 'category', 'text', 'area', 'url']
         template_name_suffix = '_create'
         widgets = {
             'title': forms.TextInput(
@@ -63,7 +64,7 @@ class PhotoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['category'].choices = [("", "선택해주세요"),] + list(self.fields["category"].choices)[0:]
+        self.fields['category'].choices = [("", "선택해주세요"), ] + list(self.fields["category"].choices)[0:]
 
 
 class InsertedImageForm(forms.ModelForm):
@@ -82,6 +83,7 @@ class InsertedImageForm(forms.ModelForm):
             'image': '',
         }
 
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
@@ -98,9 +100,13 @@ class CommentForm(forms.ModelForm):
             'text': '',
         }
 
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['text'].label = '댓글'
 
+
 ImageFormSet = forms.inlineformset_factory(Photo, InsertedImage, form=InsertedImageForm, extra=4)
+
+
+# class SearchForm(forms.ModelForm):
+#     word = forms.CharField()

@@ -1,4 +1,4 @@
-
+.errorlist {display:none;}
 #container {
     width: 408px;
     margin: 0 auto;
@@ -15,7 +15,8 @@
     padding-right: 34px;
     margin: 10px;
 }
-.confirm_btn{
+
+#submit_btn{
     width: 408px;
     height: 72px;
     background: #FFBE00;

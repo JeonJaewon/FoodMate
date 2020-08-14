@@ -1,16 +1,20 @@
 * {
     background-color: #F9F9F9;
 }
-
+a:hover{
+    text-decoration: none;
+}
 #write_button{
     display: block;
-    margin: 0 auto;
     width: 1038px;
     height: 70px;
+    line-height: 70px;
+    text-align: center;
     font-size: 24px;
-    color: white;
+    margin: 0 auto;
     border: 1px solid #FFBE00;
     border-radius: 23px;
+    color: white;
     background-color: #FFBE00;
 }
 #category_board{
@@ -21,19 +25,15 @@
     background-color: #F9F9F9;
     margin: 0 auto;
     margin-top: 13px;
-    margin-bottom: 26px;
 }
 .article_board{
-    width: 1070px;
+    width: 1038px;
     margin: 0 auto;
 }
 .article{
     float: left;
     width: 241px;
     height: 404px;
-    border: 1px solid black;
     background-color: #F9F9F9;
-    margin-right: 13px;
-    margin-left: 13px;
-    margin-bottom: 33px;
+    margin: 25px;
 }

@@ -9,14 +9,11 @@ def login(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
+        # 해당 유저가 존재한다면
         if user is not None:
             django_login(request, user)
             return redirect('photo:list')
-        else:
-            print("invalid")
-            return render(request, 'accounts/login.html', {'form': LoginForm})
-    else:
-        return render(request, 'accounts/login.html', {'form': LoginForm})
+    return render(request, 'accounts/login.html', {'form': LoginForm})
 
 
 def agreement(request):
@@ -24,18 +21,11 @@ def agreement(request):
 
 
 def signup(request):
+    # POST 방식의 요청이라면 form을 post로 초기화하고, 아니면 none으로 초기화
+    signup_form = CustomUserCreationForm(request.POST or None)
     if request.method == 'POST':
-        signup_form = CustomUserCreationForm(request.POST)
         if signup_form.is_valid():
             user = signup_form.save()
             django_login(request, user)
-            return render(request, 'accounts/agreement.html')
-        else:
-            print(signup_form.errors)
-            print(signup_form.non_field_errors)
-            signup_form = CustomUserCreationForm()
-            # messages.error(request, signup_form.non_field_errors())
-            return render(request, 'accounts/signup.html', {'form': signup_form, 'signUpFailed': True})
-    else:
-        signup_form = CustomUserCreationForm()
-        return render(request, 'accounts/signup.html', {'form': signup_form, 'signUpFailed': False})
+            return redirect('photo:list')
+    return render(request, 'accounts/signup.html', {'form': signup_form})

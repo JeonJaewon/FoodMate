@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
-    <img style="display: block; margin: 0 auto;" src="{% static "img/logo.png" %}"/>
+    <img style="display: block; margin: 0 auto; margin-top:7%;" src="{% static "img/logo.png" %}"/>
     <div id="container">
         <form method="POST">
             {% csrf_token %}
@@ -17,7 +17,11 @@
         </form>
     </div>
     <div id="bottom_bar">
-        <a href="{% url 'accounts:agreement' %}">회원가입</a>
+        <a href="{% url 'accounts:agreement' %}" style="color: #5B5B5B;">아이디 찾기</a>
+        <span style="margin:24px">|</span>
+        <a href="{% url 'accounts:agreement' %}" style="color: #5B5B5B;">비밀번호 찾기</a>
+        <span style="margin:24px">|</span>
+        <a href="{% url 'accounts:agreement' %}" style="color: #5B5B5B;">회원가입</a>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

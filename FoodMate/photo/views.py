@@ -11,9 +11,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from urllib.parse import urlparse
 from .models import Photo, InsertedImage, Comment
-
 from .forms import PhotoForm, ImageFormSet, InsertedImageForm, CommentForm
 from django.db import transaction
+from django.db.models import Q
 from django.shortcuts import render
 from django.forms import modelformset_factory
 
@@ -84,7 +84,7 @@ class PhotoDetail(DetailView):
 
 def comment_create(request):
     if request.method == 'POST':
-        photo_form =PhotoForm(request.POST, request.FILES)
+        photo_form = PhotoForm(request.POST, request.FILES)
         comment_form = CommentForm(request.POST, request.FILES)
 
         if photo_form.is_valid() and comment_form.is_valid():
@@ -103,14 +103,34 @@ def comment_create(request):
                                         'comment_form':comment_form
                                         })
 
+
 def photo_list(request): #카테고리, 지역에 따라 list가 다릅니다\
     articles = Photo.objects.all()
-    map = {}
-
+    article_dict = {}
     # photo model을 key로 하고, image url을 value로 하는 맵 생성
     for i in range(1, articles.count()+1):
         tmp = articles.get(pk=i)
-        obj = (InsertedImage.objects.get(photo=tmp))
-        map[articles.get(pk=i)] = obj.image.url
+        img_obj = (InsertedImage.objects.get(photo=tmp))
+        article_dict[articles.get(pk=i)] = img_obj.image.url
 
-    return render(request, "photo/photo_list.html", {"data": map})
+    return render(request, "photo/photo_list.html", {"data": article_dict})
+
+
+def photo_search(request):
+    articles = Photo.objects.all()
+    article_dict = {}
+
+    # input에서 query_str라는 이름으로 정의한 input 값을 받아옴
+    q = request.POST.get('query_str', '')
+    if q:
+        # 필드명__icontains -> 대소문자 상관없이 포함하고 있다면 (제목과 본문 내용 비교)
+        searched_articles = articles.filter(Q(title__icontains=q) | Q(text__icontains=q))
+    else:
+        return render(request, "photo/photo_list.html")
+
+    # photo_list와 마찬가지로 딕셔너리 생성
+    for i in range(1, searched_articles.count() + 1):
+        tmp = searched_articles.get(pk=i)
+        img_obj = (InsertedImage.objects.get(photo=tmp))
+        article_dict[searched_articles.get(pk=i)] = img_obj.image.url
+    return render(request, "photo/photo_list.html", {"data": article_dict})
