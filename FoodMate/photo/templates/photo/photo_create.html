@@ -3,7 +3,17 @@
 
 {% block content %}
 <head>
-        <link rel="stylesheet" href="{% static 'css/photo_create.css' %}">
+    <link rel="stylesheet" href="{% static 'css/photo_create.css' %}">
+<!--    <script type="text/javascript" src="{% static 'js/photo_create.js' %}"></script>-->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df37e89ac92fde8fd129e706be001d3e"></script>
+    <script>
+        var openWin;
+
+         function show_map(){
+            window.name = "parentForm";
+            openWin = window.open('{% url 'map:popup' %}','find','top=167px, left=389px, height=470px, width=480px')
+         }
+    </script>
 </head>
         <div id="container">
             <form action="" method="post" enctype="multipart/form-data">
@@ -31,14 +41,16 @@ top: 536px;">
                         <span style="position:absolute; left: 285px; top: 97px;" class="category_font">카테고리</span>
                         <div style="position:absolute; left:43px; top: 320px; width: 490px; height: 220px; background: #F9F9F9; border-radius: 5px;">
                             <div style="position:relative;">
-                                <a href="{% url 'map:popup' %}"><img style="float: left; margin-left: 30px; margin-top: 12px; width: 207px; height: 197px;" src="{% static "img/find_area.png" %}"/></a>
+                                <div>
+                                    <a onclick="show_map()"><img style="float: left; margin-left: 30px; margin-top: 12px; width: 207px; height: 197px;" src="{% static "img/find_area.png" %}"/></a>
+                                </div>
                                 <div style="position:absolute; right: 157px; top: 80px;" class="area_font">거래 위치</div>
                             </div>
                         </div>
+
                         {{ photo_form.as_p }}
                     </div>
                 </div>
             </form>
         </div>
-
 {% endblock %}

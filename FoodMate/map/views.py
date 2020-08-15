@@ -9,7 +9,7 @@ def index(request):
 
 def popup(request):
     if request.method == "POST":
-        return render(request, 'map/index.html', {"lat": request.POST["lat"], "lng": request.POST["lng"]})
+        return render(request, 'photo/photo_create.html', {"lat": request.POST["lat"], "lng": request.POST["lng"]})
     else:
         return render(request, 'map/popup.html')
 
