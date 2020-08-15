@@ -23,7 +23,7 @@
         {% endfor %}
     {% endif %}
 
-    <img style="display:block; margin:0 auto; margin-top:5%;" src="{% static "img/logo.png" %}"/>
+    <img style="cursor: pointer; display:block; margin:0 auto; margin-top:5%;" src="{% static "img/logo.png" %}" onclick="location.href='{% url 'photo:list' %}'"/>
     <div id="container">
         <form method="POST">
             {% csrf_token %}

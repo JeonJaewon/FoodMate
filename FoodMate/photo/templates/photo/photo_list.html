@@ -17,7 +17,7 @@
     <div class="article_board">
     {% if data %}
         {% for article, image in data.items %}
-            <div class="article">
+            <div style="cursor:pointer;" class="article" onclick ="location.href='{% url 'photo:detail' article.id %}'">
                 <img src="{{ image }}" style="object-fit: contain; width:100px; height:100px">
                 <div>{{ article.title }}</div>
                 <span>{{ article.count }}개</span>

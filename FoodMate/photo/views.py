@@ -130,8 +130,8 @@ def photo_search(request):
         return render(request, "photo/photo_list.html")
 
     # photo_list와 마찬가지로 딕셔너리 생성
-    for i in range(1, searched_articles.count() + 1):
-        tmp = searched_articles.get(pk=i)
+    for i in range(0, searched_articles.count()):
+        tmp = searched_articles[i]
         img_obj = (InsertedImage.objects.get(photo=tmp))
-        article_dict[searched_articles.get(pk=i)] = img_obj.image.url
+        article_dict[searched_articles[i]] = img_obj.image.url
     return render(request, "photo/photo_list.html", {"data": article_dict})
