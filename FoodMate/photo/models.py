@@ -53,6 +53,9 @@ class Photo(models.Model):
     time_now = ''
 
     # 위도, 경도
+    lat = models.TextField(default='')
+    lng = models.TextField(default='')
+
     # location = models.ForeignKey(, on_delete=models.CASCADE, related_name='user')
     # 찜
     like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_post', blank=True)

@@ -45,7 +45,7 @@
             <script>
                 var container = document.getElementById('map');
                 var options = {
-                    center: new kakao.maps.LatLng(37.543670, 127.077569),
+                    center: new kakao.maps.LatLng({{product.lat}}, {{product.lng}}),
                     level: 5
                 };
                 var map = new kakao.maps.Map(container, options);

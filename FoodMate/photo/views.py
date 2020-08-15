@@ -1,4 +1,3 @@
-from django.views.generic.list import ListView
 from django.views.generic.edit import DeleteView
 from django.views.generic.detail import DetailView
 
@@ -6,16 +5,11 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.contrib import messages
-from django.views.generic.base import View
-from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
-from urllib.parse import urlparse
 from .models import Photo, InsertedImage, Comment
-from .forms import PhotoForm, ImageFormSet, InsertedImageForm, CommentForm
+from .forms import PhotoForm, ImageFormSet, CommentForm
 from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import render
-from django.forms import modelformset_factory
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import  login_required
@@ -23,6 +17,7 @@ from datetime import datetime
 from django.views.generic.edit import FormMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+@login_required
 def create(request):
     # ImageFormSet = modelformset_factory(Image, form=ImageForm, extra=4)
     if request.method == 'POST':

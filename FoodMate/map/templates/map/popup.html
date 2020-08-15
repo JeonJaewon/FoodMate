@@ -2,17 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>카카오맵</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Roboto&display=swap" rel="stylesheet">
+    <script>
+        function setParentText(){
+            opener.document.getElementById("lat").value = document.getElementById("lat").value;
+            opener.document.getElementById("lng").value = document.getElementById("lng").value;
 
+            window.close();
+        }
+    </script>
 </head>
-<body>
-    <div id="map" style="margin:0 auto;margin-top:50px;width:500px;height:400px;"></div>
+<body style="text-align: center; ">
+    <p style="margin-top: 23px; height: 26px; font-family: Noto Sans KR; font-style: normal; font-weight: 500; font-size: 18px; line-height: 26px; text-align: center; color: #000000;">핀을 옮겨 정확한 위치를 알려주세요.</p>
+    <div id="map" style="margin:0 auto;margin-top:23px;width:569px;height:450px;"></div>
     <form method="POST">
          {% csrf_token %}
         <input name="lat" id="lat" style="display:none"/>
         <input name="lng" id="lng" style="display:none"/>
-        <input type="submit" style="display:block;margin:0 auto;margin-top:30px"/>
+        <input onclick="setParentText()" type="submit" value="등록하기" style="margin-top: 60px; width: 633px; height: 49px; background: #FFBE00; border: 2px solid #FFFFFF; border-radius: 5px; font-family: Roboto; font-style: normal; font-weight: bold; font-size: 18px; line-height: 49px; text-align: center; color: #F9F9F9;"/>
     </form>
+
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df37e89ac92fde8fd129e706be001d3e"></script>
     <script>
 		var container = document.getElementById('map');
