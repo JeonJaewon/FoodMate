@@ -1,4 +1,5 @@
 from django.views.generic.edit import DeleteView
+from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.base import View
 
@@ -19,6 +20,8 @@ from django.views.generic.edit import FormMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.db.models import Count
+from django.http import HttpResponseForbidden
+from urllib.parse import urlparse
 
 @login_required
 def create(request):
@@ -80,12 +83,19 @@ class PhotoDetail(LoginRequiredMixin, FormMixin, DetailView):
     def get_context_data(self, **kwargs):
         # 기본 구현을 호출해 context를 가져온다.
         context = super().get_context_data(**kwargs)
-        # 모든 책을 쿼리한 집합을 context 객체에 추가한다.
-        comment_count = Comment.objects.values('photo').annotate(Count('photo'))
+        # 모든 책을 쿼리한 집합을 context 객체에 추가한다
+        #comment_count = Photo.objects.values('category').annotate(Count('category'))
+
+        temp = Comment.objects.all()
+        count = 0
+        for i in temp.all():
+            if i.photo == self:
+                count = count+1
+
         context['image'] = InsertedImage.objects.all()
         context['form'] = CommentForm()
         context['comment'] =Comment.objects.all()
-        context['comment_count'] = comment_count[0]['photo__count']
+        context['comment_count'] = count
 
         return context
 
@@ -136,9 +146,6 @@ def photo_search(request):
         article_dict[searched_articles[i]] = img_obj.image.url
     return render(request, "photo/photo_list.html", {"data": article_dict})
 
-from django.http import HttpResponseForbidden
-from urllib.parse import urlparse
-
 class PhotoLike(View):
     def get(self, request, *args, **kwargs):
         if not request.user.is_authenticated: #로그인이 되어있지 않을 경우
@@ -156,3 +163,21 @@ class PhotoLike(View):
             referer_url = request.META.get('HTTP_REFERER') #성공했을 때 url을 옮기지 않고
             path = urlparse(referer_url).path
             return HttpResponseRedirect(path)
+
+# class PhotoLikeList(ListView):
+#     model = Photo
+#     template_name = 'photo/photo_list.html'
+#
+#     def dispatch(self, request, *args, **kwargs):
+#         if not request.user.is_authenticated:  # 로그인확인
+#             messages.warning(request, '로그인을 먼저하세요')
+#             return HttpResponseRedirect('/')
+#         return super(PhotoLikeList, self).dispatch(request, *args, **kwargs)
+#
+#     def get_queryset(self):
+#         # 내가 좋아요한 글을 보여주
+#         user = self.request.user
+#         queryset = user.like_post.all()
+#         return queryset
+
+

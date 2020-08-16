@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserChangeForm
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -74,6 +75,47 @@ class LoginForm(forms.ModelForm):
         labels = {
             'username': '',
             'password': ''
+        }
+
+        # 입력 폼 아래 도움말
+        help_texts = {
+            'username': ''
+        }
+
+class basic_info_form(UserChangeForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['user_photo', 'username','nickname', 'living']
+
+        widgets = {
+            'user_photo': forms.FileInput(
+                attrs={
+                    'class': 'photo_box',
+                }
+            ),
+            'username': forms.TextInput(
+                attrs={
+                    'class': 'username_box',
+                }
+            ),
+            'nickname': forms.TextInput(
+                attrs={
+                    'class': 'nickname_box',
+                }
+            ),
+            'living': forms.TextInput(
+                attrs={
+                    'class': 'living_box',
+                }
+            ),
+        }
+
+        # 입력 폼 위의 텍스트
+        labels = {
+            'user_photo': '',
+            'username': '',
+            'nickname': '',
+            'living': '',
         }
 
         # 입력 폼 아래 도움말

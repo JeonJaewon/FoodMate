@@ -1,0 +1,97 @@
+.basic_list{
+    height: 26px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 26px;
+
+    color: #000000;
+}
+.photo_box{
+    margin-top: 150px;
+}
+.username_box{
+    width: 408px;
+    height: 52px;
+    padding-left: 34px;
+    margin-top: 8px;
+
+    background: #FFFFFF;
+    border: 2px solid #FFBE00;
+    border-radius: 26px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 52px;
+    color: #5B5B5B;
+}
+.nickname_box{
+    width: 408px;
+    height: 52px;
+    padding-left: 34px;
+    margin-top: 8px;
+
+    background: #FFFFFF;
+    border: 2px solid #FFBE00;
+    border-radius: 26px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 52px;
+
+    color: #5B5B5B;
+}
+.living_box{
+    width: 408px;
+    height: 52px;
+    padding-left: 34px;
+    margin-top: 20px;
+
+    background: #FFFFFF;
+    border: 2px solid #FFBE00;
+    border-radius: 26px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 52px;
+
+    color: #5B5B5B;
+}
+
+#id_password{
+    display: none;
+
+}
+.helptext{
+    display:none;
+}
+p label{
+    display: none;
+}
+.submit_button{
+    display: block;
+    margin: 0 auto;
+    width: 321px;
+    height: 52px;
+
+    background: #FFBE00;
+    border: 2px solid #FFBE00;
+    border-radius: 26px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 40px;
+    text-align: center;
+
+    color: #000000;
+}

@@ -5,6 +5,5 @@ $(document).ready(function(){
           infinite: true, // 양방향 무한 모션
           speed: 300, // 모션 스피드
           cssEase: 'linear' //css easing 모션 함수
-
     });
 });

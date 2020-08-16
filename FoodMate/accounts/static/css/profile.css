@@ -1,0 +1,18 @@
+.nav_font{
+    display: inline-block;
+    width: 246px;
+    height: 52px;
+
+    background: white;
+    border: 2px solid white;
+    box-sizing: border-box;
+    border-radius: 26px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 52px;
+    text-align: center;
+    color: #000000;
+}
