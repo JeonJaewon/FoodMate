@@ -1,6 +1,6 @@
 from django.urls import path, include
 from django.conf.urls.static import static
-from .views import PhotoDelete, PhotoDetail, photo_list, photo_search
+from .views import PhotoDelete, PhotoDetail, photo_list, photo_search, PhotoLike
 from django.conf import settings
 
 from . import views
@@ -8,6 +8,7 @@ from . import views
 app_name = "photo"
 urlpatterns = [
     path('', photo_list, name='list'),
+    path("like/<int:photo_id>/", PhotoLike.as_view(), name='like'),
     path("create/", views.create, name='create'),
     path("delete/<int:pk>/",PhotoDelete.as_view(), name='delete'),
     path("detail/<int:pk>/",PhotoDetail.as_view(), name='detail'),

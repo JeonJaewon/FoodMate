@@ -60,9 +60,9 @@ class Photo(models.Model):
     # 찜
     like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_post', blank=True)
     # 댓글 수
-    comment = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='favorite_post', blank=True)
+    comment = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='comment_post', blank=True)
     # url
-    url = models.URLField(default = '')
+    url = models.URLField(default='')
     # 거래 유무
     deal = models.CharField(max_length=50, choices=FlAG, default='Y')
 

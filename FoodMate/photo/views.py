@@ -1,5 +1,6 @@
 from django.views.generic.edit import DeleteView
 from django.views.generic.detail import DetailView
+from django.views.generic.base import View
 
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -16,6 +17,8 @@ from django.contrib.auth.decorators import  login_required
 from datetime import datetime
 from django.views.generic.edit import FormMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+from django.db.models import Count
 
 @login_required
 def create(request):
@@ -78,9 +81,11 @@ class PhotoDetail(LoginRequiredMixin, FormMixin, DetailView):
         # 기본 구현을 호출해 context를 가져온다.
         context = super().get_context_data(**kwargs)
         # 모든 책을 쿼리한 집합을 context 객체에 추가한다.
+        comment_count = Comment.objects.values('photo').annotate(Count('photo'))
         context['image'] = InsertedImage.objects.all()
         context['form'] = CommentForm()
         context['comment'] =Comment.objects.all()
+        context['comment_count'] = comment_count[0]['photo__count']
 
         return context
 
@@ -130,3 +135,24 @@ def photo_search(request):
         img_obj = (InsertedImage.objects.get(photo=tmp))
         article_dict[searched_articles[i]] = img_obj.image.url
     return render(request, "photo/photo_list.html", {"data": article_dict})
+
+from django.http import HttpResponseForbidden
+from urllib.parse import urlparse
+
+class PhotoLike(View):
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated: #로그인이 되어있지 않을 경우
+            return HttpResponseForbidden() #아무일도 일어나지 않는다
+        else:
+            if 'photo_id' in kwargs:
+                photo_id = kwargs['photo_id']
+                photo = Photo.objects.get(pk=photo_id)
+                user = request.user
+                if user in photo.like.all():
+                    photo.like.remove(user)
+                else:
+                    photo.like.add(user)
+
+            referer_url = request.META.get('HTTP_REFERER') #성공했을 때 url을 옮기지 않고
+            path = urlparse(referer_url).path
+            return HttpResponseRedirect(path)
