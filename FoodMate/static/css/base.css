@@ -1,0 +1,27 @@
+.alarm_writer{
+    width: 39px;
+    font-size: 14px;
+    float: left;
+}
+.alarm_time{
+    width:20px;
+    font-size: 10px;
+    position: relative;
+    top: 1px;
+    left: 0px;
+}
+.alarm_text{
+    float: left;
+    font-size: 14px;
+    width: 214px;
+}
+.alarm_item{
+    width: 316px;
+    height: 42px;
+}
+.dropdown-item{
+    padding: 0;
+    padding-left: 10px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+}

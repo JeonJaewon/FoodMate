@@ -9,6 +9,7 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from .models import Photo, InsertedImage, Comment
 from .forms import PhotoForm, ImageFormSet, CommentForm
+from accounts.models import Alarm, User
 from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import render
@@ -111,7 +112,13 @@ class PhotoDetail(LoginRequiredMixin, FormMixin, DetailView):
         comment = form.save(commit=False)	# form데이터를 저장. 그러나 쿼리실행은 x
         comment.photo = get_object_or_404(Photo, pk=self.object.pk) # photo object를 call하여 photocomment의 photo로 설정(댓글이 속할 게시글 설정) pk로 pk설정 pk - photo id
         comment.username = self.request.user	# 댓글쓴 사람 설정.
+        article_writer = User.objects.get(photos=comment.photo)
         comment.save()	# 수정된 내용대로 저장. 쿼리실행
+
+        # 알람 생성
+        alarm = Alarm(user=article_writer, comment=comment)
+        alarm.save()
+
         return super(PhotoDetail, self).form_valid(form)
 
 
@@ -120,6 +127,7 @@ def photo_list(request): #카테고리, 지역에 따라 list가 다릅니다\
     article_dict = {}
     # photo model을 key로 하고, image url을 value로 하는 맵 생성
     for i in range(1, articles.count()+1):
+        # TODO: pk로 가져오면 삭제시 오류 발생함 !!
         tmp = articles.get(pk=i)
         img_obj = (InsertedImage.objects.get(photo=tmp))
         article_dict[articles.get(pk=i)] = img_obj.image.url
