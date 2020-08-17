@@ -1,0 +1,28 @@
+{% extends 'accounts/profile.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/security.css' %}">
+</head>
+<form method="POST">
+    {% csrf_token %}
+    <div style="margin-top: 19px; margin: 0 auto; width: 1193px; height: 602px; background: #F9F9F9; border: 2px solid #FFBE00; border-radius: 29px;">
+        <div style="margin-top: 50px; margin-left:78px;">
+            <p style="display: inline-block; width: 45px; height: 35px;font-family: Noto Sans KR;font-style: normal;font-weight: bold;font-size: 24px;line-height: 35px;color: #000000;">보안</p>
+            <p style="margin-left: 19px; display: inline-block;width: 390px;height: 20px;font-family: Noto Sans KR;font-style: normal;font-weight: normal;font-size: 14px;line-height: 20px;color: #000000;">서비스 계정 관리</p>
+        </div>
+            <div style="margin-left: 152px; margin-top: 95px; margin-bottom: 27px;">
+                <p style="display: inline-block; width: 115px;" class="bold_basic_list">계정 로그아웃</p>
+                <p style="display: inline-block; width: 307px; margin-left: 18px;" class="basic_list" style="margin-top:69px;">현재 서비스에 로그인 중인 계정에서 로그아웃 합니다.</p>
+            </div>
+            <a class="button_box" href="{% url 'accounts:logout' %}">로그아웃</a>
+            <div style="margin-left: 152px; margin-top: 98px; margin-bottom: 27px;">
+                <p class="bold_basic_list" style="display: inline-block; width: 79px;">회원 탈퇴</p>
+                <p class="basic_list" style="display: inline-block; width: 265px; margin-left: 18px;">현재 서비스에 로그인 중인 계정을 탈퇴합니다.</p>
+            </div>
+            <a class="button_box" href="{% url 'accounts:delete' %}">회원 탈퇴</a>
+    </div>
+</form>
+
+{% endblock %}

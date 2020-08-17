@@ -8,7 +8,18 @@
 {% load static %}
 <head>
     <link rel="stylesheet" href="{% static 'css/photo_list.css' %}">
+    <script type="text/javascript" src="{% static 'js/photo_list.js' %}"></script>
 </head>
+<div>
+    <div class="image_list"  style="margin: 0 auto;width: 1839px; height: 327.5px;">
+        <div class="image">
+            <img style="width: 1839px; height: 327.5px;" src="{% static "img/peach.png" %}" class="card-img-top" alt="사진">
+        </div>
+        <div class="image">
+            <img style="width: 1839px; height: 327.5px;" src="{% static "img/peach.png" %}" class="card-img-top" alt="사진">
+        </div>
+    </div>
+</div>
 
 <div style="margin-top:50px">
     <!--  해당 for문은 data라는 dictionary에서 article은 key, image는 value가 각각 할당되어 반복됨  -->

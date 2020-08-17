@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model, authenticate, login as django_login
 from .forms import CustomUserCreationForm, LoginForm, basic_info_form
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import UpdateView
 from django.http import HttpResponseRedirect
 
-from .models import User
+from django.contrib.auth.forms import PasswordChangeForm
 
 def login(request):
     if request.method == 'POST':
@@ -33,6 +34,7 @@ def signup(request):
             return redirect('photo:list')
     return render(request, 'accounts/signup.html', {'form': signup_form})
 
+@login_required
 def profile(request):
     current_user = request.user
 
@@ -52,3 +54,39 @@ def update(request):
     return render(request, 'accounts/basic_info.html', {
         'user_change_form': user_change_form
     })
+
+from django.contrib.auth import update_session_auth_hash
+
+def login_update(request):
+    if request.method == 'POST':
+        user_change_form = PasswordChangeForm(request.user, request.POST)
+        user_email = request.user
+        user_email.email = request.POST["email"]
+        user_email.save()
+        if user_change_form.is_valid():
+            user = user_change_form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('accounts:login')
+
+    else:
+        user_change_form = PasswordChangeForm(request.user)
+    return render(request, 'accounts/login_info.html', {
+        'user_change_form': user_change_form,
+    })
+
+def security(request):
+    current_user = request.user
+    return render(request, 'accounts/security.html', {'user': current_user})
+
+from django.contrib import auth
+
+def logout(request):
+    auth.logout(request)
+    return redirect('accounts:login')
+
+def delete(request):
+    request.user.delete()
+    logout(request)
+    return redirect('accounts:login')
+
