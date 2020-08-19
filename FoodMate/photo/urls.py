@@ -1,6 +1,6 @@
 from django.urls import path, include
 from django.conf.urls.static import static
-from .views import PhotoDelete, PhotoDetail, photo_list, photo_search, PhotoLike
+from .views import PhotoDelete, PhotoDetail, photo_list, photo_search, PhotoLike, my_activity, comment_photo, written_photo
 from django.conf import settings
 
 from . import views
@@ -8,6 +8,10 @@ from . import views
 app_name = "photo"
 urlpatterns = [
     path('', photo_list, name='list'),
+    path("my_activity/", views.my_activity, name='my_activity'),
+    path("written_photo/", views.written_photo, name='written_photo'),
+    path("like_photo/", views.like_photo, name='like_photo'),
+    path("comment_photo/", views.comment_photo, name='comment_photo'),
     path("like/<int:photo_id>/", PhotoLike.as_view(), name='like'),
     path("create/", views.create, name='create'),
     path("delete/<int:pk>/",PhotoDelete.as_view(), name='delete'),

@@ -117,11 +117,15 @@ class PhotoDetail(LoginRequiredMixin, FormMixin, DetailView):
 
 def photo_list(request): #카테고리, 지역에 따라 list가 다릅니다\
     articles = Photo.objects.all()
+    img = InsertedImage.objects.all()
     article_dict = {}
     # photo model을 key로 하고, image url을 value로 하는 맵 생성
     for i in range(1, articles.count()+1):
         tmp = articles.get(pk=i)
-        img_obj = (InsertedImage.objects.get(photo=tmp))
+        for j in range(1, articles.count()+1):
+            if img.get(pk=j).photo == tmp:
+                img_obj = img.get(pk=j)
+                break
         article_dict[articles.get(pk=i)] = img_obj.image.url
 
     return render(request, "photo/photo_list.html", {"data": article_dict})
@@ -164,9 +168,121 @@ class PhotoLike(View):
             path = urlparse(referer_url).path
             return HttpResponseRedirect(path)
 
+def my_activity(request):
+    articles = Photo.objects.all()
+    img = InsertedImage.objects.all()
+    comment = Comment.objects.all()
+    article_dict1 = {}
+    article_dict2 = {}
+    article_dict3 = {}
+
+    count1 = 0
+    count2 = 0
+    count3 = 0
+
+    flag1 = 1
+    flag2 = 1
+    flag3 = 1
+    for i in range(1, comment.count()+1):
+        temp = comment.get(pk=i)
+        if temp.username ==request.user:
+            photo_tmp = temp.photo
+            count2 = count2 + 1
+            if flag2 == 1:
+                for j in range(1, articles.count() + 1):
+                    if img.get(pk=j).photo == photo_tmp:
+                        img_obj = img.get(pk=j)
+                        flag2 = 0
+                        break
+                article_dict2[photo_tmp] = img_obj.image.url
+
+
+    # photo model을 key로 하고, image url을 value로 하는 맵 생성
+    for i in range(1, articles.count()+1):
+        tmp = articles.get(pk=i)
+        temp = comment.get(pk=i)
+        if tmp.author == request.user:
+            count1 = count1 + 1
+            if flag1 == 1:
+                for j in range(1, articles.count() + 1):
+                    if img.get(pk=j).photo == tmp:
+                        img_obj = img.get(pk=j)
+                        flag1 = 0
+                        break
+                article_dict1[articles.get(pk=i)] = img_obj.image.url
+
+        for like_temp in tmp.like.all():
+            if like_temp == request.user:
+                count3 = count3 + 1
+                if flag3 == 1:
+                    for j in range(1, articles.count() + 1):
+                        if img.get(pk=j).photo == tmp:
+                            img_obj = img.get(pk=j)
+                            flag3 = 0
+                            break
+                    article_dict3[articles.get(pk=i)] = img_obj.image.url
+
+    return render(request, "photo/my_activity.html", {"data1": article_dict1, "data2": article_dict2, "data3": article_dict3, "count1": count1, "count2": count2, "count3": count3})
+
+def written_photo(request):
+    articles = Photo.objects.all()
+    img = InsertedImage.objects.all()
+    article_dict = {}
+    count = 0
+    # photo model을 key로 하고, image url을 value로 하는 맵 생성
+    for i in range(1, articles.count()+1):
+        tmp = articles.get(pk=i)
+        for j in range(1, articles.count() + 1):
+            if img.get(pk=j).photo == tmp:
+                img_obj = img.get(pk=j)
+                break
+        if tmp.author == request.user:
+            article_dict[articles.get(pk=i)] = img_obj.image.url
+            count = count+1
+
+    return render(request, "photo/written_photo.html", {"data": article_dict, "count": count})
+
+def comment_photo(request):
+    articles = Photo.objects.all()
+    img = InsertedImage.objects.all()
+    comment = Comment.objects.all()
+    article_dict = {}
+    count = 0
+    # photo model을 key로 하고, image url을 value로 하는 맵 생성
+    for i in range(1, comment.count()+1):
+        temp = comment.get(pk=i)
+        if temp.username ==request.user:
+            photo_tmp = temp.photo
+            for j in range(1, articles.count() + 1):
+                if img.get(pk=j).photo == photo_tmp:
+                    img_obj = img.get(pk=j)
+                    break
+            article_dict[photo_tmp] = img_obj.image.url
+            count = count+1
+    return render(request, "photo/comment_photo.html", {"data": article_dict, "count": count})
+
+def like_photo(request):
+    articles = Photo.objects.all()
+    img = InsertedImage.objects.all()
+    article_dict = {}
+    count = 0
+    # photo model을 key로 하고, image url을 value로 하는 맵 생성
+    for i in range(1, articles.count()+1):
+        tmp = articles.get(pk=i)
+        for like_temp in tmp.like.all():
+            if like_temp == request.user:
+                for j in range(1, articles.count() + 1):
+                    if img.get(pk=j).photo == tmp:
+                        img_obj = img.get(pk=j)
+                        break
+                article_dict[articles.get(pk=i)] = img_obj.image.url
+                count = count+1
+    return render(request, "photo/like_photo.html", {"data": article_dict, "count": count})
+
+
 # class PhotoLikeList(ListView):
 #     model = Photo
-#     template_name = 'photo/photo_list.html'
+#     template_name = 'photo/like_photo.html'
 #
 #     def dispatch(self, request, *args, **kwargs):
 #         if not request.user.is_authenticated:  # 로그인확인
