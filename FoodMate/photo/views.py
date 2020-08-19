@@ -22,6 +22,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.http import HttpResponseForbidden
 from urllib.parse import urlparse
+from django.core.exceptions import ObjectDoesNotExist
+
 
 @login_required
 def create(request):
@@ -117,11 +119,11 @@ class PhotoDetail(LoginRequiredMixin, FormMixin, DetailView):
 
 def photo_list(request): #카테고리, 지역에 따라 list가 다릅니다\
     articles = Photo.objects.all()
-    img = InsertedImage.objects.all()
     article_dict = {}
     # photo model을 key로 하고, image url을 value로 하는 맵 생성
     for i in range(1, articles.count()+1):
         tmp = articles.get(pk=i)
+        img = InsertedImage.objects.all()
         for j in range(1, articles.count()+1):
             if img.get(pk=j).photo == tmp:
                 img_obj = img.get(pk=j)
@@ -183,24 +185,23 @@ def my_activity(request):
     flag1 = 1
     flag2 = 1
     flag3 = 1
-    for i in range(1, comment.count()+1):
-        temp = comment.get(pk=i)
-        if temp.username ==request.user:
-            photo_tmp = temp.photo
-            count2 = count2 + 1
-            if flag2 == 1:
-                for j in range(1, articles.count() + 1):
-                    if img.get(pk=j).photo == photo_tmp:
-                        img_obj = img.get(pk=j)
-                        flag2 = 0
-                        break
-                article_dict2[photo_tmp] = img_obj.image.url
 
+    for i in range(1, comment.count()+1):
+            temp = comment.get(pk=i)
+            if temp.username == request.user:
+                photo_tmp = temp.photo
+                count2 = count2 + 1
+                if flag2 == 1:
+                    for j in range(1, articles.count() + 1):
+                        if img.get(pk=j).photo == photo_tmp:
+                            img_obj = img.get(pk=j)
+                            flag2 = 0
+                            break
+                    article_dict2[photo_tmp] = img_obj.image.url
 
     # photo model을 key로 하고, image url을 value로 하는 맵 생성
     for i in range(1, articles.count()+1):
         tmp = articles.get(pk=i)
-        temp = comment.get(pk=i)
         if tmp.author == request.user:
             count1 = count1 + 1
             if flag1 == 1:
