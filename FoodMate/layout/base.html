@@ -23,12 +23,19 @@
         </form>
 
         <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            알림
+          <button type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img id="alarm_icon" src="{% static 'img/alarm.png' %}"/>
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
+            <div id="alarm_title">알림</div>
+            {% if alarm not in request.user.alarms.all %}
+              알림이 없습니다.
+            {% endif %}
             {% for alarm in request.user.alarms.all %}
-                <div class="dropdown-item alarm_item">
+                <div class="dropdown-item alarm_item" onclick ="location.href='{% url 'photo:detail' alarm.comment.photo.id %}'">
+                    <div class="alarm_photo">
+                        <img src="{% static 'img/user_photo.png' %}">
+                    </div>
                     <div class="alarm_writer">
                         {{ alarm.comment.username }}
                         <div class="alarm_time">

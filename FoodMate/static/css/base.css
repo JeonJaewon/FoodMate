@@ -1,3 +1,12 @@
+#alarm_title{
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 34px;
+}
+.alarm_photo{
+    float: left;
+    margin-right: 10px;
+}
 .alarm_writer{
     width: 39px;
     font-size: 14px;
@@ -21,7 +30,22 @@
 }
 .dropdown-item{
     padding: 0;
-    padding-left: 10px;
     margin-top: 7px;
     margin-bottom: 7px;
+}
+.dropdown-menu{
+    width: 355px;
+    padding: 26px;
+}
+#dropdownMenuButton{
+    width: 30px;
+    height 30px;
+    border: 1px solid #FFBE00;
+    border-radius: 15px;
+}
+#alarm_icon{
+   object-fit: cover;
+   width: 100%;
+   position: relative;
+   top:-1px;
 }

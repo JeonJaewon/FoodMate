@@ -112,12 +112,13 @@ class PhotoDetail(LoginRequiredMixin, FormMixin, DetailView):
         comment = form.save(commit=False)	# form데이터를 저장. 그러나 쿼리실행은 x
         comment.photo = get_object_or_404(Photo, pk=self.object.pk) # photo object를 call하여 photocomment의 photo로 설정(댓글이 속할 게시글 설정) pk로 pk설정 pk - photo id
         comment.username = self.request.user	# 댓글쓴 사람 설정.
-        article_writer = User.objects.get(photos=comment.photo)
+        article_writer = User.objects.get(photos=comment.photo) # 글쓴이의 정보를 받아옴 (알람 생성 목적)
         comment.save()	# 수정된 내용대로 저장. 쿼리실행
 
-        # 알람 생성
-        alarm = Alarm(user=article_writer, comment=comment)
-        alarm.save()
+        # 댓글쓴이와 글쓴이가 동일하지 않다면 알람 생성
+        if article_writer != comment.username:
+            alarm = Alarm(user=article_writer, comment=comment)
+            alarm.save()
 
         return super(PhotoDetail, self).form_valid(form)
 
