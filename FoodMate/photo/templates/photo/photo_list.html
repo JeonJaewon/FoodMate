@@ -35,10 +35,32 @@
                 <span>{{ article.money }}원</span>
             </div>
         {% endfor %}
+
     {% else %}
         <img style="position:relative; top:100px; left:380px; display:block;" src="{% static 'img/shape.png' %}"/>
         <div style="position:relative; top:-180px; text-align:center; background-color:transparent; font-weight: bold; font-size: 24px;">검색 결과가 없습니다.</div>
     {% endif %}
     </div>
+    {% if raw_posts.has_next %}
+<!--            <a href="?page={{ raw_posts.next_page_number }}">더보기</a>-->
+        <div class="article">
+            <button id="see_more_btn">더보기</button>
+        </div>
+    {% endif %}
 </div>
+<!--<script type="text/javascript" >-->
+<!--        var counter = 0;-->
+<!--       $('#see_more_btn').click(function(){-->
+<!--        var counter = counter + 10;-->
+<!--        info = {'counter': counter, 'csrfmiddlewaretoken':"{{ csrf_token }}"}-->
+<!--        $.ajax({-->
+<!--            type: "POST",-->
+<!--            url: "{% url 'photo:call_ajax' %}",-->
+<!--            data: info,-->
+<!--            dataType:'json',-->
+<!--        })-->
+<!--    })-->
+<!--</script>-->
+
+
 {% endblock %}

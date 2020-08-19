@@ -29,11 +29,20 @@ a:hover{
 .article_board{
     width: 1038px;
     margin: 0 auto;
+    margin-top: 26px;
 }
 .article{
     float: left;
+    text-align: center;
     width: 241px;
     height: 404px;
+    margin-left:24px;
     background-color: #F9F9F9;
-    margin: 25px;
+}
+.article:nth-child(4n+1){
+    float: left;
+    width: 241px;
+    height: 404px;
+    margin-left:0;
+    background-color: #F9F9F9;
 }

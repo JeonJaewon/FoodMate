@@ -1,12 +1,16 @@
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.base import View
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.contrib import messages
+from django.core.paginator import Paginator
+from django.core import serializers
+
 from .models import Photo, InsertedImage, Comment
 from .forms import PhotoForm, ImageFormSet, CommentForm
 from accounts.models import Alarm, User
@@ -23,6 +27,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.http import HttpResponseForbidden
 from urllib.parse import urlparse
+
+import json
 
 @login_required
 def create(request):
@@ -127,13 +133,38 @@ def photo_list(request): #카테고리, 지역에 따라 list가 다릅니다\
     articles = Photo.objects.all()
     article_dict = {}
     # photo model을 key로 하고, image url을 value로 하는 맵 생성
-    for i in range(1, articles.count()+1):
-        # TODO: pk로 가져오면 삭제시 오류 발생함 !!
-        tmp = articles.get(pk=i)
-        img_obj = (InsertedImage.objects.get(photo=tmp))
-        article_dict[articles.get(pk=i)] = img_obj.image.url
 
-    return render(request, "photo/photo_list.html", {"data": article_dict})
+    paginator = Paginator(articles, 4) # 10개 제한
+    page = request.GET.get('page')
+    articles = paginator.get_page(page)
+
+    for i in range(0, articles.__len__()):
+    # TODO: pk로 가져오면 삭제시 오류 발생함 !!
+        tmp = articles[i]
+        img_obj = (InsertedImage.objects.get(photo=tmp))
+        article_dict[articles[i]] = img_obj.image.url
+    # print(articles.get(pk=1).inserted_image.get(pk=1).image.url)
+    return render(request, "photo/photo_list.html", {"data": article_dict, "raw_posts": articles})
+
+@csrf_exempt
+def call_ajax(request):
+    if request.method == 'POST':
+        response_json = request.POST
+        response_json = json.dumps(response_json)
+        data = json.loads(response_json)
+        counter = int(data['counter'])
+        print(counter)
+        # obj = Photo.objects.all()[counter:][:10]
+        obj = Photo.objects.all()[counter:counter+4]
+        articles = serializers.serialize('json', obj)
+        img_urls = []
+        for i in range(0, obj.count()):
+            img_urls.append(InsertedImage.objects.get(photo=obj[i]).image.url)
+        data = {'articles': articles, 'img_urls': img_urls}
+        print(data)
+        print(img_urls)
+        return JsonResponse(data, safe=False)
+    return JsonResponse(None, safe=False)
 
 
 def photo_search(request):
