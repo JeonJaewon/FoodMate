@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'css/slick-1.8.1/slick/slick.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/slick-1.8.1/slick/slick-theme.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}"/>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Roboto&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 </head>
@@ -21,7 +22,35 @@
             <input style="width: 800px; background: #F4F4F4; border: 1px solid #FFBE00; border-radius: 23.5px;font-family: Noto Sans KR;font-style: normal;font-weight: normal;font-size: 20px;line-height: 29px; text-align: center; color: #5B5B5B;" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query_str" value="{{query_str}}">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
-        <button>알림</button>
+        <div class="dropdown">
+          <button type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img id="alarm_icon" src="{% static 'img/alarm.png' %}"/>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
+            <div id="alarm_title">알림</div>
+            {% if alarm not in request.user.alarms.all %}
+              알림이 없습니다.
+            {% endif %}
+            {% for alarm in request.user.alarms.all %}
+                <div class="dropdown-item alarm_item" onclick ="location.href='{% url 'photo:detail' alarm.comment.photo.id %}'">
+                    <div class="alarm_photo">
+                        <img src="{% static 'img/user_photo.png' %}">
+                    </div>
+                    <div class="alarm_writer">
+                        {{ alarm.comment.username }}
+                        <div class="alarm_time">
+                            15분전
+<!--                        {{ alarm.comment.created }}-->
+                        </div>
+                    </div>
+                    <div class="alarm_text">
+                        {{ alarm.comment.text }}
+                    </div>
+                </div>
+            {% endfor %}
+          </div>
+        </div>
+
         {% if user.is_authenticated %}
         <a style="margin-left:21px;" href="{% url 'accounts:profile' %}"><img style="width: 47px;height: 47px;" src="{% static "img/grape.png" %}"></a>
         {% else %}
