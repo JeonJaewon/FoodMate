@@ -1,0 +1,53 @@
+{% extends 'accounts/profile.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/written_photo.css' %}">
+    <script type="text/javascript" src="{% static 'js/written_photo.js' %}"></script>
+</head>
+<form method="POST">
+    {% csrf_token %}
+    <div style="margin-top: 19px; margin: 0 auto; width: 1193px; background: #F9F9F9; border: 2px solid #FFBE00; border-radius: 29px;">
+        <div style="margin-top: 50px; margin-left:78px;">
+            <p style="display:inline-block; width: 100px;height: 35px;font-family: Noto Sans KR;font-style: normal;font-weight: bold;font-size: 24px;line-height: 35px;color: #000000;">댓글 단 글</p>
+            <p class="count" style="margin-left: 19px; ">{{ count }}</p>
+            <p class="count">건</p>
+        </div>
+        <div style="overflow:hidden; margin-top: 28px; margin-left:78px;">
+            {% if data %}
+                {% for article, image in data.items %}
+                    <div style="margin-right:25px; z-index: 1; position:relative; cursor:pointer;" class="article" onclick ="location.href='{% url 'photo:detail' article.id %}'">
+                        <img src="{{ image }}" class="article" style="">
+                        <p class="area" style="z-index: 3; position: absolute; right: 12px; top: 10px;"> {{ article.area }}</p>
+
+                        <div class="bg_parent">
+                            <div class="bg">
+                                <div style="margin-top: 172px; width: 240px; height: 404px; text-align: center; ">
+                                    <p class="title">{{ article.title }}</p>
+                                    <div>
+                                        <span class="yellow_font">{{ article.count }}</span>
+                                        <span style="margin-left:5px;" class="white_font">개</span>
+                                        <span style="margin-left:16px;" class="yellow_font">{{ article.money }}</span>
+                                        <span style="margin-left:13px;"class="white_font">원</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="show_count" style="z-index: 3; position: absolute; right:0; bottom: 0px; width: 100px; height: 30px;">
+                                <img style="display: inline-block;" src="{% static 'img/comment_white.png' %}"/>
+                                <p class="white" style="display: inline-block; margin-left: 4px;"> 0 </p>
+                                <img style="margin-left:12px; display: inline-block;" src="{% static 'img/heart_white.png' %}"/>
+                                <p class="white" style="margin-left:4px; display: inline-block;"> {{ article.like.count }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <img style="position:relative; top:100px; left:380px; display:block;" src="{% static 'img/shape.png' %}"/>
+                <div style="position:relative; top:-180px; text-align:center; background-color:transparent; font-weight: bold; font-size: 24px;">검색 결과가 없습니다.</div>
+                </div>
+            {% endif %}
+    </div>
+</form>
+
+{% endblock %}
