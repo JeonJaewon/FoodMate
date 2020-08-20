@@ -1,6 +1,6 @@
 //let counter = 0;
-let counter = $('.article_board').length;
 $(document).ready(function(){
+    let counter = $('.article_board').children().length;
     $.noConflict();
     $('.image_list').slick({
         autoplay: true,
@@ -12,8 +12,9 @@ $(document).ready(function(){
 
     });
     $("#see_more_btn").click(function(){
-        console.log("ajax call")
-        counter = counter + 4;
+        console.log(counter)
+        counter = counter + 10;
+        console.log(counter)
         info = {"counter": counter}
         $.ajax({
             type: "POST",

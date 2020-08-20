@@ -25,6 +25,7 @@
     <!--  해당 for문은 data라는 dictionary에서 article은 key, image는 value가 각각 할당되어 반복됨  -->
     <a id="write_button" href="{% url 'photo:create' %}">게시물 작성하기</a>
     <div id="category_board"></div>
+
     <div class="article_board">
     {% if data %}
         {% for article, image in data.items %}
@@ -35,7 +36,6 @@
                 <span>{{ article.money }}원</span>
             </div>
         {% endfor %}
-
     {% else %}
         <img style="position:relative; top:100px; left:380px; display:block;" src="{% static 'img/shape.png' %}"/>
         <div style="position:relative; top:-180px; text-align:center; background-color:transparent; font-weight: bold; font-size: 24px;">검색 결과가 없습니다.</div>
@@ -44,23 +44,8 @@
     {% if raw_posts.has_next %}
 <!--            <a href="?page={{ raw_posts.next_page_number }}">더보기</a>-->
         <div class="article">
-            <button id="see_more_btn">더보기</button>
+            <img id="see_more_btn" src="{% static 'img/see_more_btn.png' %}">
         </div>
     {% endif %}
 </div>
-<!--<script type="text/javascript" >-->
-<!--        var counter = 0;-->
-<!--       $('#see_more_btn').click(function(){-->
-<!--        var counter = counter + 10;-->
-<!--        info = {'counter': counter, 'csrfmiddlewaretoken':"{{ csrf_token }}"}-->
-<!--        $.ajax({-->
-<!--            type: "POST",-->
-<!--            url: "{% url 'photo:call_ajax' %}",-->
-<!--            data: info,-->
-<!--            dataType:'json',-->
-<!--        })-->
-<!--    })-->
-<!--</script>-->
-
-
 {% endblock %}

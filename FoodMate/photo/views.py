@@ -134,7 +134,7 @@ def photo_list(request): #카테고리, 지역에 따라 list가 다릅니다\
     article_dict = {}
     # photo model을 key로 하고, image url을 value로 하는 맵 생성
 
-    paginator = Paginator(articles, 4) # 10개 제한
+    paginator = Paginator(articles, 10)  # 10개 제한
     page = request.GET.get('page')
     articles = paginator.get_page(page)
 
@@ -144,18 +144,17 @@ def photo_list(request): #카테고리, 지역에 따라 list가 다릅니다\
         img_obj = (InsertedImage.objects.get(photo=tmp))
         article_dict[articles[i]] = img_obj.image.url
     # print(articles.get(pk=1).inserted_image.get(pk=1).image.url)
-    return render(request, "photo/photo_list.html", {"data": article_dict, "raw_posts": articles})
+    return render(request, "photo/photo_list.html", {"data": article_dict, "raw_posts": articles}) # 가공하지 않은 article을 그대로 넘김
 
 @csrf_exempt
 def call_ajax(request):
     if request.method == 'POST':
         response_json = request.POST
         response_json = json.dumps(response_json)
-        data = json.loads(response_json)
+        data = json.loads(response_json)  # ajax에서 넘겨주는 값을 받아옴
         counter = int(data['counter'])
         print(counter)
-        # obj = Photo.objects.all()[counter:][:10]
-        obj = Photo.objects.all()[counter:counter+4]
+        obj = Photo.objects.all()[counter:counter + 10]  # 몇개씩 가져올것인지 설정
         articles = serializers.serialize('json', obj)
         img_urls = []
         for i in range(0, obj.count()):

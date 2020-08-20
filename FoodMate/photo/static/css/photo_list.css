@@ -46,3 +46,6 @@ a:hover{
     margin-left:0;
     background-color: #F9F9F9;
 }
+#see_more_btn{
+    cursor: pointer;
+}
