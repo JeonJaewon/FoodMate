@@ -14,9 +14,10 @@ class CustomUserCreationForm(UserCreationForm):
         label='',
         widget=forms.PasswordInput(attrs={'class': 'input_box', 'placeholder': '비밀번호 확인'})
     )
+
     class Meta(UserCreationForm.Meta):
-        model = get_user_model()
         # 커스텀 유저 모델이 아닌 직접 정의한 유저 모델을 사용하므로 get_user_model()을 사용
+        model = get_user_model()
         fields = ('email', 'password1', 'password2', 'username', 'nickname')
         widgets = {
             'email': forms.EmailInput(

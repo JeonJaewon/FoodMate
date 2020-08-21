@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>아이디 또는 비밀번호가 올바르지 않습니다.</strong>
+        </div>
+    {% endif %}
     <img style="cursor: pointer; display: block; margin: 0 auto; margin-top:7%;" src="{% static "img/logo.png" %}" onclick="location.href='{% url 'photo:list' %}'"/>
     <div id="container">
         <form method="POST">

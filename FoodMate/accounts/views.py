@@ -9,15 +9,20 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.forms import PasswordChangeForm
 
 def login(request):
+    login_form = LoginForm(request.POST or None)
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        # 해당 유저가 존재한다면
-        if user is not None:
-            django_login(request, user)
-            return redirect('photo:list')
-    return render(request, 'accounts/login.html', {'form': LoginForm})
+        if login_form.is_valid():
+            # username = request.POST['username']
+            # password = request.POST['password']
+            username = login_form.cleaned_data['username']
+            password = login_form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            # 해당 유저가 존재한다면 바로 로그인
+            if user is not None:
+                django_login(request, user)
+                return redirect('photo:list')
+            login_form.add_error(None, "login_failed")
+    return render(request, 'accounts/login.html', {'form': login_form})
 
 
 def agreement(request):

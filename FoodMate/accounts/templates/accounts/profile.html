@@ -3,31 +3,35 @@
 {% block title %}
 {% endblock %}
 
-{% block content %}
 {% load static %}
 
-<link rel="stylesheet" href="{% static 'css/profile.css' %}">
-
-    <div style="overflow: hidden; margin: 0 auto; margin-top: 5%;">
-        <div style="width: 1193px; height: 140px; margin: 0 auto;">
-            <img style="margin-top:0px; margin-right:5px; margin-left:120px; width: 113px; height: 113px;" src="{% static 'img/grape.png' %}"/>
-            <div style="position:relative; display: inline-block; height: 113px; line-height: 113px;">
-                <p style="padding-top: 30px;margin-bottom:0px; margin-left: 37px; width: 500px; height: 52px; font-family: Noto Sans KR;font-style: normal;font-weight: bold;font-size: 36px;line-height: 52px;color: #FFBE00;">
-                    안녕하세요 {{ user.nickname }} 님
-                </p>
-                <p style=" position: absolute; top:83px; margin-top:4px; margin-left: 42px; width: 500px; height: 26px; font-family: Noto Sans KR; font-style: normal;font-weight: normal;font-size: 18px;line-height: 26px;color: #000000;">
-                    {{ user.living }}
-                </p>
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+        <div style="overflow: hidden; margin: 0 auto; margin-top: 5%;">
+            <div style="width: 1193px; height: 140px; margin: 0 auto;">
+                <img style="margin-top:0px; margin-right:5px; margin-left:120px; width: 113px; height: 113px;" src="{% static 'img/grape.png' %}"/>
+                <div style="position:relative; display: inline-block; height: 113px; line-height: 113px;">
+                    <p style="padding-top: 30px;margin-bottom:0px; margin-left: 37px; width: 500px; height: 52px; font-family: Noto Sans KR;font-style: normal;font-weight: bold;font-size: 36px;line-height: 52px;color: #FFBE00;">
+                        안녕하세요 {{ user.nickname }} 님
+                    </p>
+                    <p style=" position: absolute; top:83px; margin-top:4px; margin-left: 42px; width: 500px; height: 26px; font-family: Noto Sans KR; font-style: normal;font-weight: normal;font-size: 18px;line-height: 26px;color: #000000;">
+                        {{ user.living }}
+                    </p>
+                </div>
             </div>
-        </div>
-        <div style="width: 1193px; height: 75px; margin: 0 auto; margin-top: 45px; text-align: center;">
-            <a class="nav_font" href="{% url 'photo:my_activity' %}">내 활동 </a>
-            <a class="nav_font" href="{% url 'accounts:basic_info' %}">기본 정보 </a>
-            <a class="nav_font" href="{% url 'accounts:login_info' %}">로그인 정보 </a>
-            <a class="nav_font" href="{% url 'accounts:security' %}">보안 </a>
-        </div>
-</div>
+            <div style="width: 1193px; height: 75px; margin: 0 auto; margin-top: 45px; text-align: center;">
+                <a class="nav_font" href="{% url 'photo:my_activity' %}">내 활동 </a>
+                <a class="nav_font" href="{% url 'accounts:basic_info' %}">기본 정보 </a>
+                <a class="nav_font" href="{% url 'accounts:login_info' %}">로그인 정보 </a>
+                <a class="nav_font" href="{% url 'accounts:security' %}">보안 </a>
+            </div>
+    </div>
+    <div>
+        {% block submenu %}
+        {% endblock %}
+    </div>
 {% endblock %}
+
 
 
 
