@@ -73,7 +73,7 @@
                 </div>
                 <img style="display: inline-block; width: 30px; margin-left: 8px;" src="{% static 'img/upload.png' %}"/>
                 <div class="btn-group dropleft" style="">
-                    <button style="background-color: white; border: 0px;" id="menu_button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button style="background-color: white; border: 0px; width: 30px;" class="menu_button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           <img style="display: inline-block; width: 30px;" src="{% static 'img/menu.png' %}"/>
                     </button>
                     <div class="dropdown-menu" x-placement="right-start" style="position: absolute; transform: translate3d(111px, 0px, 0px); top: 0px; left: 0px; will-change: transform;">
@@ -91,30 +91,59 @@
     <div style="width: 1037px; margin: 0 auto; margin-bottom: 98px;">
         {% for commentList in comment.all %}
         {% if product == commentList.photo %}
-            {% if product.author == commentList.username %}
-                <div style="margin-top: 17px; text-align: left;">
-                    <img style="display: inline-block; width: 31.76px; height: 24.24px; margin-left:150px;" src="{% static 'img/arrow.png' %}"/>
+            <div style="margin-top: 17px; text-align: left;" class="one_comment">
+                <div>
                     <img style="margin-left: 25px; width: 40.73px; height: 40.73px;" src="{% static 'img/user_photo.png' %}"/>
                     <span class="nickname" style="display: inline-block; margin-left: 22.27px;"> {{ commentList.username }}</span>
-<!--                    <span class="time" style="display: inline-block; margin-left: 13px;"> {{ commentList.updated }}</span>-->
-                    <span class="user_comment_box"> {{ commentList.text }} </span>
-                    <img style="display: inline-block; margin-left:116px;" src="{% static 'img/comment_menu.png' %}"/>
+                    <span class="time" style="display: inline-block; margin-left: 13px;"> {{ commentList.updated }}</span>
                 </div>
-            {% else %}
-                <div style="margin-top: 17px; text-align: left;">
-                    <div>
+                <div class="comment_box" style="display: inline-block; margin-top: 10px; margin-left:90px;">
+                    {{ commentList.text }}
+                </div>
+                <div class="btn-group dropleft" style="">
+                    <button style="background-color: white; border: 0px; width: 30px;" class="menu_button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img style="" src="{% static 'img/comment_menu.png' %}"/>
+                    </button>
+                    <div class="dropdown-menu" x-placement="right-start" style="position: absolute; transform: translate3d(111px, 0px, 0px); top: 0px; left: 0px; will-change: transform;">
+                        <p class="create_recomment"><a class="dropdown-item">답글달기</a></p>
+                        <hr style="width: 130px; border: 1px solid #FFFFFF; margin: 0 auto; margin-top: 5px;">
+                        <a class="dropdown-item" href="">신고하기</a>
+                    </div>
+                </div>
+            </div>
+            {% for re_commentList in re_comment.all %}
+                {% if commentList == re_commentList.comment %}
+                    <div style="margin-top: 17px; text-align: left;" class="comment_div">
+                        <img style="display: inline-block; width: 31.76px; height: 24.24px; margin-left:150px;" src="{% static 'img/arrow.png' %}"/>
                         <img style="margin-left: 25px; width: 40.73px; height: 40.73px;" src="{% static 'img/user_photo.png' %}"/>
-                        <span class="nickname" style="display: inline-block; margin-left: 22.27px;"> {{ commentList.username }}</span>
-                        <span class="time" style="display: inline-block; margin-left: 13px;"> {{ commentList.updated }}</span>
+                        <span class="nickname" style="display: inline-block; margin-left: 22.27px;"> {{ re_commentList.username }}</span>
+    <!--                    <span class="time" style="display: inline-block; margin-left: 13px;"> {{ commentList.updated }}</span>-->
+                        <span class="user_comment_box"> {{ re_commentList.text }} </span>
+
+                        <div class="btn-group dropleft" style="">
+                            <button style="background-color: white; border: 0px; width: 30px;" class="menu_button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                   <img style="" src="{% static 'img/comment_menu.png' %}"/>
+                            </button>
+                            <div class="dropdown-menu" x-placement="right-start" style="position: absolute; transform: translate3d(111px, 0px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                <a class="dropdown-item">수정하기</a>
+                                <hr style="width: 130px; border: 1px solid #FFFFFF; margin: 0 auto; margin-top: 5px;">
+                                <a class="dropdown-item" href="{% url 'photo:delete_comment' recomment_id=re_commentList.id photo_id=product.id %}">삭제하기</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="comment_box" style="display: inline-block; margin-top: 10px; margin-left:90px;">
-                        {{ commentList.text }}
-                    </div>
-                    <img style="display: inline-block; margin-left:355px;" src="{% static 'img/comment_menu.png' %}"/>
-                </div>
-            {% endif %}
+                {% endif %}
+            {% endfor %}
+            <div class="form_recomment" style="display: none; position: relative;">
+                <form method="post" action="{% url 'photo:create_recomment' comment_id=commentList.id photo_id=product.id %}">
+                    {%csrf_token%}
+                    {{ recomment_form.as_p }}
+                    <input type="hidden" name="comment" value="{{ product.id }}">
+                    <input type="submit" value="보내기" class="comment_button">
+                </form>
+            </div>
         {% endif %}
-    {% endfor %}
+        {% endfor %}
+
         <div style="position: relative;">
             <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}

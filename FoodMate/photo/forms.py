@@ -1,5 +1,5 @@
 from django import forms
-from .models import Photo, InsertedImage, Comment
+from .models import Photo, InsertedImage, Comment, ReComment
 
 
 class PhotoForm(forms.ModelForm):
@@ -114,6 +114,25 @@ class CommentForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # self.fields['text'].label = '댓글'
 
+class ReCommentForm(forms.ModelForm):
+    class Meta:
+        model = ReComment
+        fields = ['text', ]
+        widgets = {
+            'text': forms.TextInput(
+                attrs={
+                    'class': 're_text_box',
+                    'placeholder': '답글을 입력하세요'
+                }
+            )
+        }
+        labels = {
+            'text': '',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # self.fields['text'].label = '댓글'
 
 ImageFormSet = forms.inlineformset_factory(Photo, InsertedImage, form=InsertedImageForm, extra=4)
 

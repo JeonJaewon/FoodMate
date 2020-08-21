@@ -20,5 +20,7 @@ urlpatterns = [
     path("edit/<int:pk>/",views.edit, name='edit'),
     path("search/", photo_search, name='search'),
     path("call_ajax/", call_ajax, name='call_ajax'),
+    path("delete_comment/<int:recomment_id>/<int:photo_id>", views.delete_comment, name='delete_comment'),
+    path('create_recomment/<int:comment_id>/<int:photo_id>', views.create_recomment, name="create_recomment"),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
