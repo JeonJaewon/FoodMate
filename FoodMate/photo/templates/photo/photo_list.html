@@ -51,12 +51,7 @@
                     </div>
                 </div>
             {% endfor %}
-            {% if raw_posts.has_next %}
-<!--            <a href="?page={{ raw_posts.next_page_number }}">더보기</a>-->
-                <div class="article" id="see_more_btn_container">
-                        <img id="see_more_btn" src="{% static 'img/see_more_btn.png' %}">
-                </div>
-            {% endif %}
+
         {% else %}
             <img style="position:relative; top:100px; left:380px; display:block;" src="{% static 'img/shape.png' %}"/>
             <div style="position:relative; top:-180px; text-align:center; background-color:transparent; font-weight: bold; font-size: 24px;">검색 결과가 없습니다.</div>

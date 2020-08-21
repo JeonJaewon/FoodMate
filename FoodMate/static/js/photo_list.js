@@ -1,24 +1,63 @@
 //let counter = 0;
+
 $(document).ready(function(){
-    let counter = $('.article_board').children().length;
     $.noConflict();
     init_slick();
     init_hover();
+    if($('.article').length > 10)
+        init_see_more_btn();
+});
+function init_slick(){
+    $('.image_list').slick({
+        autoplay: true,
+        autoplaySpeed: 5000,
+        dots: false, // 하단 paging버튼 노출 여부
+        infinite: true, // 양방향 무한 모션
+        speed: 300, // 모션 스피드
+        cssEase: 'linear', //css easing 모션 함수
+
+    });
+}
+function init_hover(){
+    $('.bg_parent')
+    .mouseover(function(){
+        $(this).children('div.bg').show();
+        $(this).children('div.show_count').hide();
+    })
+    .mouseout(function(){
+        $(this).children('div.bg').hide();
+        $(this).children('div.show_count').show();
+    });
+}
+function init_see_more_btn(){
+    let counter = $('.article_board').children().length;
+    $('.article_board').append('<div class="article" id="see_more_btn_container"><img id="see_more_btn" src="static/img/see_more_btn.png"></div>')
     $("#see_more_btn").click(function(){
-        console.log(counter)
         counter = counter + 10;
-        console.log(counter)
         info = {"counter": counter}
         $.ajax({
             type: "POST",
             url: "call_ajax/",
             data: info,
             dataType: "json",
+            statusCode: {
+                // 더 이상 읽어 올 글이 존재하지 않을 때
+                404: function(response){
+                    $('#see_more_btn_container').remove();
+                    console.log(response.responseJSON.message)
+                },
+                // POST 이외의 방식으로 호출
+                400: function(response){
+                    console.log(response.responseJSON.message)
+                }
+            },
             success: function(response){ // 호출 성공시
                 articles = JSON.parse(response.articles)
                 img_urls =  response.img_urls
+                console.log(articles)
                 for(var i = 0; i < articles.length; i++){
-                    $("#see_more_btn_container").prepend(
+                    console.log(articles[i].pk)
+                    $(".article_board").append(
                     '<div style=\"margin-left: 0px; margin-right:25px; z-index: 1; position:relative; cursor:pointer;\" class=\"article\" onclick =\"location.href=\"{% url '
                     + 'photo:detail ' + articles[i].pk  + ' %}\">'
                     + '<img src=\"' + img_urls[i] + '\" class=\"article\">'
@@ -43,32 +82,11 @@ $(document).ready(function(){
                             + '</div>'
                         + '</div>'
                     + '</div>')
-                init_hover() // 다시 호출해줘야 호버 효과 적용됨
                 }
+                $('#see_more_btn_container').remove();
+                init_hover() // 다시 호출해줘야 호버 효과 적용됨
+                init_see_more_btn();
             }
         })
     })
-
-});
-function init_slick(){
-    $('.image_list').slick({
-        autoplay: true,
-        autoplaySpeed: 5000,
-        dots: false, // 하단 paging버튼 노출 여부
-        infinite: true, // 양방향 무한 모션
-        speed: 300, // 모션 스피드
-        cssEase: 'linear', //css easing 모션 함수
-
-    });
-}
-function init_hover(){
-    $('.bg_parent')
-    .mouseover(function(){
-        $(this).children('div.bg').show();
-        $(this).children('div.show_count').hide();
-    })
-    .mouseout(function(){
-        $(this).children('div.bg').hide();
-        $(this).children('div.show_count').show();
-    });
 }

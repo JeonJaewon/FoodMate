@@ -165,19 +165,21 @@ def call_ajax(request):
         response_json = request.POST
         response_json = json.dumps(response_json)
         data = json.loads(response_json)  # ajax에서 넘겨주는 값을 받아옴
-        counter = int(data['counter']) - 1
-        obj = Photo.objects.all()[counter - 10:counter + 10]  # 몇개씩 가져올것인지 설정, 지금은 10개.
-        articles = serializers.serialize('json', obj)
+
+        counter = int(data['counter'])
+        start_index = counter - 10  # 몇개씩 가져올것인지 설정, 지금은 10개. photo_list.js와 동시에 수정해줘야함
+        end_index = counter
+        tmp = Photo.objects.all()[start_index:end_index - 1]
+        if not tmp.exists():  # 쿼리한 결과 더 읽어올 글이 없다면
+            return JsonResponse({'status': 'false', 'message': 'No more contents to show'}, status=404)
         img_urls = []
-        for i in range(0, obj.count()):
-            img_urls.append(InsertedImage.objects.get(photo=obj[i]).image.url)
+        for i in range(0, tmp.count()):
+            img_urls.append(InsertedImage.objects.get(photo=tmp[i]).image.url)
+
+        articles = serializers.serialize('json', tmp)  # tmp 객체를 json 화 시키기
         data = {'articles': articles, 'img_urls': img_urls}
-
-
-
-
         return JsonResponse(data, safe=False)
-    return JsonResponse(None, safe=False)
+    return JsonResponse({'status': 'false', 'message': 'This call only support POST method'}, status=400)
 
 
 def photo_search(request):

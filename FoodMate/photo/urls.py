@@ -1,7 +1,7 @@
 from django.urls import path, include
 from django.conf.urls.static import static
 
-from .views import PhotoDetail, photo_list, photo_search, PhotoLike, my_activity, comment_photo, written_photo,call_ajax
+from .views import PhotoDetail, photo_list, photo_search, PhotoLike, my_activity, comment_photo, written_photo, call_ajax
 from django.conf import settings
 
 from . import views
