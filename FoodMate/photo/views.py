@@ -88,10 +88,11 @@ class PhotoDetail(LoginRequiredMixin, FormMixin, DetailView):
         # 모든 책을 쿼리한 집합을 context 객체에 추가한다
         #comment_count = Photo.objects.values('category').annotate(Count('category'))
 
-        temp = Comment.objects.all()
+        comment = Comment.objects.all()
         count = 0
-        for i in temp.all():
-            if i.photo == self:
+        for i in range(1, comment.count()+1):
+            temp = comment.get(pk=i)
+            if temp.photo == context['product']:
                 count = count+1
 
         context['image'] = InsertedImage.objects.all()

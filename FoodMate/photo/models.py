@@ -38,13 +38,13 @@ class Photo(models.Model):
     # 내용
     text = models.TextField(max_length=180, default = '')
     # 지역 --> 지도에서 가져오나요? 사용자가 입력하고, 지도는 위치 보여주기용인듯 합니다!
-    area = models.TextField(max_length=180, default = '')
+    area = models.TextField(max_length=15, default = '')
     # 카테고리
     category = models.CharField(max_length=50, choices=FOOD_CHOICES, default = '')
     # 개수
-    count = models.IntegerField(default=0)
+    count = models.IntegerField(max_length=2, default=0)
     # 금액
-    money = models.IntegerField(default=0)
+    money = models.IntegerField(max_length=5, default=0)
     # 작성 시간
     created = models.DateTimeField(auto_now_add=True)
     # 수정 시간
@@ -88,7 +88,7 @@ class Comment(models.Model):
     username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                                  related_name="comments")
     #댓글 내용
-    text = models.TextField(max_length=200, default="")
+    text = models.TextField(max_length=300, default="")
     # 댓글 작성 시, 자동으로 댓글 작성한 날짜 저장
     created = models.DateTimeField(auto_now_add=True)
     # 댓글 수정 시, 자동으로 댓글 수정한 날짜 저장
