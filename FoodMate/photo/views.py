@@ -11,8 +11,8 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.core import serializers
 
-from .models import Photo, InsertedImage, Comment
-from .forms import PhotoForm, ImageFormSet, CommentForm
+from .models import Photo, InsertedImage, Comment, ReComment
+from .forms import PhotoForm, ImageFormSet, CommentForm, ReCommentForm
 from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import render
@@ -54,7 +54,7 @@ def create(request):
         'image_formset': image_formset,
     })
 
-@login_required
+@login_required #오류 수정해야합니다...
 def edit(request, pk):
     photo = Photo.objects.get(pk=pk)
 
@@ -118,7 +118,9 @@ class PhotoDetail(LoginRequiredMixin, FormMixin, DetailView):
 
         context['image'] = InsertedImage.objects.all()
         context['comment'] = Comment.objects.all()
+        context['re_comment'] = ReComment.objects.all()
         context['comment_count'] = count
+        context['recomment_form'] = ReCommentForm()
 
         return context
 
@@ -336,3 +338,21 @@ def like_photo(request):
                 count = count + 1
     return render(request, "photo/like_photo.html", {"data": article_dict, "count": count})
 
+def delete_comment(request, recomment_id, photo_id):
+    mycom = ReComment.objects.get(id=recomment_id)
+    mycom.delete()
+    return redirect('photo:detail', photo_id)
+
+def create_recomment(request, comment_id, photo_id):
+    if request.method == 'POST':
+        filled_form = ReCommentForm(request.POST)
+        if filled_form.is_valid():
+            re_comment = filled_form.save(commit=False)
+            re_comment.username = request.user
+            re_comment.comment = Comment.objects.get(id=comment_id)
+            re_comment.save()
+            return redirect('photo:detail', photo_id)
+    else:
+        filled_form = ReCommentForm()
+
+    return render(request, )

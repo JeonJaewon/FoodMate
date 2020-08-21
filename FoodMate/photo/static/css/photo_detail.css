@@ -189,6 +189,24 @@ a:hover { color: blue; text-decoration: underline;}
 
     color: #000000;
 }
+.re_text_box{
+    display: inline-block;
+    width: 1037px;
+    height: 47px;
+    margin-top: 41px;
+
+    border: 2px solid black;
+    border-radius: 23.5px;
+
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 47px;
+    text-align: center;
+
+    color: #000000;
+}
 
 .comment_button{
     position: absolute;

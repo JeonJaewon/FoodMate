@@ -83,7 +83,7 @@ class InsertedImage(models.Model):
 
 #댓글 모델
 class Comment(models.Model):
-    photo = models.ForeignKey(Photo, on_delete=models.CASCADE, related_name='comments')
+    photo = models.ForeignKey(Photo, on_delete=models.CASCADE, related_name='comments', null=True)
     #현재 로그인한 유저
     username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                                  related_name="comments")
@@ -94,7 +94,18 @@ class Comment(models.Model):
     # 댓글 수정 시, 자동으로 댓글 수정한 날짜 저장
     updated = models.DateTimeField(auto_now=True)
     # 대댓글 기능 구현 위해 대댓글 작성할 특정 댓글 선택
-    # parentComment = models.ForeignKey("self", on_delete=models.CASCADE, default="")
+    # parentComment = models.ForeignKey("self", related_name='reply', on_delete=models.CASCADE,null=True, blank=True, default="")
 
     def __str__(self):
         return f"{self.username}님의 댓글"
+
+class ReComment(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                                 related_name="re_comment")
+    text = models.TextField(max_length=300, default="")
+    created = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.text

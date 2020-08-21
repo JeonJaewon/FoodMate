@@ -6,4 +6,7 @@ $(document).ready(function(){
           speed: 300, // 모션 스피드
           cssEase: 'linear' //css easing 모션 함수
     });
+    $('.create_recomment').click(function(){
+        $('.form_recomment').show();
+    });
 });
