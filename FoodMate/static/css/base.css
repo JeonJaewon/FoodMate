@@ -1,3 +1,14 @@
+#search_btn{
+    background: white;
+    border: 0;
+
+}
+#search_icon{
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+
+}
 #alarm_title{
     font-size: 24px;
     font-weight: bold;
@@ -38,11 +49,13 @@
     padding: 26px;
 }
 #dropdownMenuButton{
-    margin-left: 22px;
+    margin-left: 32px;
     width: 47px;
     height: 47px;
     border: 1px solid #FFBE00;
     border-radius: 22px;
+        background: white;
+
 }
 #alarm_icon{
     object-fit: scale-down;

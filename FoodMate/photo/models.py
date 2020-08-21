@@ -1,4 +1,5 @@
 from django.db import models
+# from django.contrib.auth.models import User
 from django.conf import settings
 from django.urls import reverse
 from django.conf import settings
@@ -58,8 +59,6 @@ class Photo(models.Model):
     # location = models.ForeignKey(, on_delete=models.CASCADE, related_name='user')
     # 찜
     like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_post', blank=True)
-    # 댓글 수
-    comment = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='comment_post', blank=True)
     # url
     url = models.URLField(default='')
     # 거래 유무
