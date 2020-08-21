@@ -5,12 +5,13 @@ a:hover { color: blue; text-decoration: underline;}
 
 #container {
     overflow: hidden;
+    width: 1055px;
     margin: 0 auto;
     margin-top: 5%;
     text-align: center;
 }
 .post_text{
-    height: 652px;
+    height: 670px;
     width: 507px;
     margin-left: 41px;
     margin-top: 0px;
@@ -208,4 +209,31 @@ a:hover { color: blue; text-decoration: underline;}
     text-align: center;
     color: #FFFFFF;
 
+}
+
+#menu_button{
+    display:inline-block;
+    width: 30px;
+    height: 30px;
+
+    background-color: none;
+}
+
+.dropdown-menu.show{
+    width: 119px;
+    height: 74px;
+    background: #E7E7E7;
+    border-radius: 7px;
+    padding:0px;
+}
+.dropdown-item{
+    display:block;
+    margin-top: 9px;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    color: #000000;
 }

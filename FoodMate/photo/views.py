@@ -54,19 +54,32 @@ def create(request):
         'image_formset': image_formset,
     })
 
+@login_required
+def edit(request, pk):
+    photo = Photo.objects.get(pk=pk)
 
-class PhotoDelete(DeleteView):
-    model = Photo
-    template_name_suffix = '_delete'
-    success_url = '/'
+    if request.method == 'POST':
+        photo_form = PhotoForm(instance=photo)
+        image_formset = ImageFormSet()
+        if photo_form.is_valid() and image_formset.is_valid():
+            photo.save()
+            image_formset.save()
+            return redirect('photo:list')
+    else:
+        photo_form = PhotoForm(instance=photo)
+        image_formset = ImageFormSet()
+    return render(request, 'photo/photo_edit.html', {
+        'photo_form': photo_form,
+        'image_formset': image_formset,
+    })
 
-    def dispatch(self, request, *args, **kwargs):
-        object = self.get_object()
-        if object.author != request.user:
-            messages.warning(request, '삭제할 권한이 없습니다.')
-            return HttpResponseRedirect('/')
-        else:
-            return super(PhotoDelete, self).dispatch(request, *args, **kwargs)
+def delete(request, pk):
+    photo = Photo.objects.get(pk=pk)
+    if request.user == photo.author:
+        photo.delete()
+    else:
+        messages.warning(request, '삭제할 권한이 없습니다.')
+    return redirect('/')
 
 
 class PhotoDetail(LoginRequiredMixin, FormMixin, DetailView):
@@ -96,14 +109,14 @@ class PhotoDetail(LoginRequiredMixin, FormMixin, DetailView):
         # 모든 책을 쿼리한 집합을 context 객체에 추가한다
         # comment_count = Photo.objects.values('category').annotate(Count('category'))
 
-        temp = Comment.objects.all()
+        comment = Comment.objects.all()
         count = 0
-        for i in temp.all():
-            if i.photo == self:
+        for i in range(0, comment.__len__()):
+            temp = comment[i]
+            if temp.photo == context['product']:
                 count = count + 1
 
         context['image'] = InsertedImage.objects.all()
-        context['form'] = CommentForm()
         context['comment'] = Comment.objects.all()
         context['comment_count'] = count
 
@@ -128,6 +141,7 @@ class PhotoDetail(LoginRequiredMixin, FormMixin, DetailView):
 
 def photo_list(request):  # 카테고리, 지역에 따라 list가 다릅니다\
     articles = Photo.objects.all()
+    img = InsertedImage.objects.all()
     article_dict = {}
     # photo model을 key로 하고, image url을 value로 하는 맵 생성
     paginator = Paginator(articles, 10)  # 10개 제한
@@ -136,7 +150,10 @@ def photo_list(request):  # 카테고리, 지역에 따라 list가 다릅니다\
 
     for i in range(0, articles.__len__()):
         tmp = articles[i]
-        img_obj = (InsertedImage.objects.get(photo=tmp))
+        for j in range(0, img.__len__()): # 여러개의 이미지일 경우
+            if img[j].photo == tmp:
+                img_obj = img[j]
+                break
         article_dict[articles[i]] = img_obj.image.url
     return render(request, "photo/photo_list.html",
                   {"data": article_dict, "raw_posts": articles})  # 가공하지 않은 article을 그대로 넘김
@@ -220,42 +237,42 @@ def my_activity(request):
     flag2 = 1
     flag3 = 1
 
-    for i in range(1, comment.count() + 1):
-        temp = comment.get(pk=i)
+    for i in range(0, comment.__len__()):
+        temp = comment[i]
         if temp.username == request.user:
             photo_tmp = temp.photo
             count2 = count2 + 1
             if flag2 == 1:
-                for j in range(1, articles.count() + 1):
-                    if img.get(pk=j).photo == photo_tmp:
-                        img_obj = img.get(pk=j)
+                for j in range(0, img.__len__()):
+                    if img[j].photo == photo_tmp:
+                        img_obj = img[j]
                         flag2 = 0
                         break
                 article_dict2[photo_tmp] = img_obj.image.url
 
     # photo model을 key로 하고, image url을 value로 하는 맵 생성
-    for i in range(1, articles.count() + 1):
-        tmp = articles.get(pk=i)
+    for i in range(0, articles.__len__()):
+        tmp = articles[i]
         if tmp.author == request.user:
             count1 = count1 + 1
             if flag1 == 1:
-                for j in range(1, articles.count() + 1):
-                    if img.get(pk=j).photo == tmp:
-                        img_obj = img.get(pk=j)
+                for j in range(0, img.__len__()):
+                    if img[j].photo == tmp:
+                        img_obj = img[j]
                         flag1 = 0
                         break
-                article_dict1[articles.get(pk=i)] = img_obj.image.url
+                article_dict1[articles[i]] = img_obj.image.url
 
         for like_temp in tmp.like.all():
             if like_temp == request.user:
                 count3 = count3 + 1
                 if flag3 == 1:
-                    for j in range(1, articles.count() + 1):
-                        if img.get(pk=j).photo == tmp:
-                            img_obj = img.get(pk=j)
+                    for j in range(0, img.__len__()):
+                        if img[j].photo == tmp:
+                            img_obj = img[j]
                             flag3 = 0
                             break
-                    article_dict3[articles.get(pk=i)] = img_obj.image.url
+                    article_dict3[articles[i]] = img_obj.image.url
 
     return render(request, "photo/my_activity.html",
                   {"data1": article_dict1, "data2": article_dict2, "data3": article_dict3, "count1": count1,
@@ -268,14 +285,14 @@ def written_photo(request):
     article_dict = {}
     count = 0
     # photo model을 key로 하고, image url을 value로 하는 맵 생성
-    for i in range(1, articles.count() + 1):
-        tmp = articles.get(pk=i)
-        for j in range(1, articles.count() + 1):
-            if img.get(pk=j).photo == tmp:
-                img_obj = img.get(pk=j)
+    for i in range(0, articles.__len__()):
+        tmp = articles[i]
+        for j in range(0, img.__len__()):
+            if img[j].photo == tmp:
+                img_obj = img[j]
                 break
         if tmp.author == request.user:
-            article_dict[articles.get(pk=i)] = img_obj.image.url
+            article_dict[articles[i]] = img_obj.image.url
             count = count + 1
 
     return render(request, "photo/written_photo.html", {"data": article_dict, "count": count})
@@ -288,13 +305,13 @@ def comment_photo(request):
     article_dict = {}
     count = 0
     # photo model을 key로 하고, image url을 value로 하는 맵 생성
-    for i in range(1, comment.count() + 1):
-        temp = comment.get(pk=i)
+    for i in range(0, comment.__len__()):
+        temp = comment[i]
         if temp.username == request.user:
             photo_tmp = temp.photo
-            for j in range(1, articles.count() + 1):
-                if img.get(pk=j).photo == photo_tmp:
-                    img_obj = img.get(pk=j)
+            for j in range(0,img.__len__()):
+                if img[j].photo == photo_tmp:
+                    img_obj = img[j]
                     break
             article_dict[photo_tmp] = img_obj.image.url
             count = count + 1
@@ -307,14 +324,15 @@ def like_photo(request):
     article_dict = {}
     count = 0
     # photo model을 key로 하고, image url을 value로 하는 맵 생성
-    for i in range(1, articles.count() + 1):
-        tmp = articles.get(pk=i)
+    for i in range(0, articles.__len__()):
+        tmp = articles[i]
         for like_temp in tmp.like.all():
             if like_temp == request.user:
-                for j in range(1, articles.count() + 1):
-                    if img.get(pk=j).photo == tmp:
-                        img_obj = img.get(pk=j)
+                for j in range(0, img.__len__()):
+                    if img[j].photo == tmp:
+                        img_obj = img[j]
                         break
-                article_dict[articles.get(pk=i)] = img_obj.image.url
+                article_dict[articles[i]] = img_obj.image.url
                 count = count + 1
     return render(request, "photo/like_photo.html", {"data": article_dict, "count": count})
+

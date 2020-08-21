@@ -4,37 +4,63 @@
 <head>
     <meta charset="UTF-8">
     <title>회원 가입</title>
+    <link rel="stylesheet" href="{% static 'css/agreement.css' %}">
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/agreement.js' %}"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script>
+        $(document).ready(function(){
+            $('.button').click(function(){
+                 if($("#check_1").is(":checked") == false){
+                    alert("필수 약관에 동의 하셔야 다음 단계로 진행 가능합니다.");
+                    return;
+                 }else if($("#check_2").is(":checked") == false){
+                    alert("필수 약관에 동의 하셔야 다음 단계로 진행 가능합니다.");
+                    return;
+                 }else{
+                    $(".button a").attr("href", "{% url 'accounts:signup' %}")
+                 }
+            });
+        });
+    </script>
 </head>
 <body>
 <img style="cursor:pointer; display:block; margin:0 auto; margin-top:5%;" src="{% static "img/logo.png" %}" onclick="location.href='{% url 'photo:list' %}'"/>
 <div style="margin:0 auto; margin-top: 50px; width:533px;">
-    <input type="checkbox">
-    서비스 이용약관 동의 (필수)
+    <div style="overflow: hidden;">
+        <input id="check_1" type="checkbox" style="float: left; width: 21px;height: 21px;">
+        <p class="font1" style="margin-left: 20px;"> 서비스 이용약관 동의 (필수) </p>
+    </div>
     <div style="overflow:scroll; height:127px;">
     </div>
 </div>
-<div style="margin:0 auto; margin-top: 50px; width:533px;">
-    <input type="checkbox">
-    개인정보 수집 및 이용 동의 (필수)
+<div style="margin:0 auto; margin-top: 30px; width:533px;">
+    <div style="overflow: hidden;">
+        <input id="check_2" type="checkbox" style="float: left; width: 21px;height: 21px;">
+        <p class="font1" style="margin-left: 20px;"> 개인정보 수집 및 이용 동의 (필수)</p>
+    </div>
     <div style="overflow:scroll; height:127px;">
     </div>
 </div>
-<div style="margin:0 auto; margin-top: 50px; width:533px;">
-    <input type="checkbox">
-    이벤트 및 광고성 정보 수신 (선택)
+<div style="margin:0 auto; margin-top: 30px; width:533px; overflow: hidden; ">
+    <input id="check_3" type="checkbox" style="float: left; width: 21px;height: 21px;">
+    <p class="font1" style="margin-left: 20px;"> 이벤트 및 광고성 정보 수신 (선택) </p>
 </div>
-<hr style="width:531px;">
-<div style="margin:0 auto; margin-top: 50px; width:533px;">
-    <input type="checkbox">
-    모두 동의하기
+<hr style="width:531px; margin-top: 30px;">
+<div style="margin:0 auto; margin-top: 30px; width:533px; overflow: hidden;">
+    <input id="check_all" type="checkbox" style="float: left; width: 21px;height: 21px;">
+    <p class="font1" style="margin-left: 20px;"> 모두 동의하기 </p>
 </div>
 
-<div style="margin:0 auto; margin-top: 50px; width:533px;">
-    ‘모두 동의하기' 시, 선택 항목에 대한 동의가 포함됩니다.<br>
-    선택 항목에 대한 동의를 거부하시는 경우에도 서비스는 이용하실 수 있습니다.
+<div style="margin:0 auto; margin-top: 22px; width:533px; padding-left: 43px;">
+    <p class="font2">
+        ‘모두 동의하기' 시, 선택 항목에 대한 동의가 포함됩니다.<br>
+        선택 항목에 대한 동의를 거부하시는 경우에도 서비스는 이용하실 수 있습니다.
+    </p>
 </div>
-<button style="display:block;margin:0 auto; margin-top: 50px; width:533px;"><a href="{% url 'accounts:signup' %}">다음</a></button>
+<button class="button" style="margin-top: 62px;"><a style="text-decoration: none;">다음</a></button>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

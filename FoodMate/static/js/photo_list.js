@@ -4,7 +4,8 @@ $(document).ready(function(){
     $.noConflict();
     init_slick();
     init_hover();
-    init_see_more_btn();
+    if($('.article').length > 10)
+        init_see_more_btn();
 });
 function init_slick(){
     $('.image_list').slick({

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/photo_detail.css' %}"/>
 </head>
 <div id="container">
-    <div class="image_list"  style="display: inline-block; height: 652px; width: 507px; border-radius: 5px; borer: 0 solid white; margin:0px;">
+    <div class="image_list"  style="float:left; height: 652px; width: 507px; border-radius: 5px; borer: 0 solid white; margin:0px;">
         {% for imageList in image.all %}
         {% if product == imageList.photo %}
         <div class="image">
@@ -19,7 +19,7 @@
         {% endfor %}
     </div>
 
-    <div class="post_text" style="display: inline-block; margin-bottom: 65px;">
+    <div class="post_text" style="display: inline-block; margin-bottom: 10px;">
         <div style="text-align: left;">
             {% if product.deal == "Y" %}
             <p class="deal_box"> 모집 중 </p>
@@ -43,7 +43,7 @@
         <div class="text">
             {{product.text}}
         </div>
-        <div style="overflow:hidden; width: 490px; height: 220px; background: #F9F9F9; border-radius: 5px; padding: 12px 18px;">
+        <div style="overflow:hidden; width: 490px; height: 280px; background: #F9F9F9; border-radius: 5px; padding: 12px 18px;">
             <div id="map" style="float:left; width: 208px; height: 196px; border-radius: 5px;"></div>
             <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df37e89ac92fde8fd129e706be001d3e"></script>
             <script>
@@ -72,12 +72,21 @@
                     <a style="text-decoration:none; " href="{{product.url}}">링크 이동하기</a>
                 </div>
                 <img style="display: inline-block; width: 30px; margin-left: 8px;" src="{% static 'img/upload.png' %}"/>
-                <img style="display: inline-block; width: 30px;" src="{% static 'img/sign.png' %}"/>
+                <div class="btn-group dropleft" style="">
+                    <button style="background-color: white; border: 0px;" id="menu_button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <img style="display: inline-block; width: 30px;" src="{% static 'img/menu.png' %}"/>
+                    </button>
+                    <div class="dropdown-menu" x-placement="right-start" style="position: absolute; transform: translate3d(111px, 0px, 0px); top: 0px; left: 0px; will-change: transform;">
+                        <a class="dropdown-item" href="{% url 'photo:edit' pk=product.id %}">수정하기</a>
+                        <hr style="width: 130px; border: 1px solid #FFFFFF; margin: 0 auto; margin-top: 5px;">
+                        <a class="dropdown-item" href="{% url 'photo:delete' pk=product.id %}">삭제하기</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <hr style="width: 1037px; border: 1px solid #000000; margin: 0 auto;">
+    <hr style="width: 1041px; border: 1px solid #000000; margin: 0 auto;">
 
     <div style="width: 1037px; margin: 0 auto; margin-bottom: 98px;">
         {% for commentList in comment.all %}
