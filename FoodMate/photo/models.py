@@ -62,7 +62,7 @@ class Photo(models.Model):
     # url
     url = models.URLField(default='')
     # 거래 유무
-    deal = models.CharField(max_length=50, choices=FlAG, default='Y')
+    deal = models.CharField(max_length=50, choices=FlAG, default='모집 중')
 
     def __str__(self):
         return "text : " + self.title

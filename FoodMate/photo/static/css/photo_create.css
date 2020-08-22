@@ -152,11 +152,9 @@
     color: #000000;
 }
 .url_box{
-    position: absolute;
-    top: 565px;
-    left:43px;
-
-    width: 503px;
+    display:block;
+    margin-top: 18px;
+    width: 1060px;
     height: 47px;
     padding-left: 63px;
     border: 2px solid #FFBE00;

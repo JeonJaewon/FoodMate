@@ -34,7 +34,7 @@ top: 536px;">
                     </div>
                 </div>
                 <div style="position:relative; overflow:hidden; display:inline-block; height: 652px; width: 547px;">
-                    <input type="submit" value="저장" class="submit_button">
+                    <input type="submit" value="저장" class="submit_button" style="margin-top: 90px;">
                     <div style="position:relative">
                         <span style="position:absolute; left: 110px; top: 97px;" class="number_font">개</span>
                         <span style="position:absolute; left: 250px; top: 97px;" class="number_font">원</span>
@@ -47,9 +47,13 @@ top: 536px;">
                                 <div style="position:absolute; right: 157px; top: 80px;" class="area_font">거래 위치</div>
                             </div>
                         </div>
-
                         {{ photo_form.as_p }}
                     </div>
+                </div>
+                <div style="position:relative; width: 1060px;
+height: 47px; margin: 0 auto;">
+                    <input name="url" type="url" class="url_box" placeholder="상품의 본 판매사이트 링크를 입력해주세요">
+                    <p style="position:absolute; right:10px; top: 7.5px;width: 102px;height: 31px;background: #FFBE00;border-radius: 15.5px;font-family: Noto Sans KR;font-style: normal;font-weight: normal;font-size: 18px;line-height: 31px;text-align: center;color: #FFFFFF;">URL</p>
                 </div>
             </form>
         </div>

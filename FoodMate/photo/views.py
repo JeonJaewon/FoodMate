@@ -40,6 +40,7 @@ def create(request):
         if photo_form.is_valid() and image_formset.is_valid():
             photo = photo_form.save(commit=False)
             photo.author_id = request.user.id
+            photo.url = request.POST["url"]
 
             with transaction.atomic():
                 photo.save()

@@ -5,7 +5,7 @@ from .models import Photo, InsertedImage, Comment, ReComment
 class PhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
-        fields = ['title', 'count', 'money', 'category', 'text', 'area', 'url', 'lat','lng']
+        fields = ['title', 'count', 'money', 'category', 'text', 'area', 'lat', 'lng']
         template_name_suffix = '_create'
         widgets = {
             'title': forms.TextInput(
@@ -43,12 +43,6 @@ class PhotoForm(forms.ModelForm):
                 attrs={
                     'class': 'area_box',
                     'placeholder': '상세 위치를 기입해주세요'
-                }
-            ),
-            'url': forms.URLInput(
-                attrs={
-                    'class': 'url_box',
-                    'placeholder': '상품의 본 판매사이트 링크를 입력해주세요'
                 }
             ),
             'lat': forms.TextInput(
