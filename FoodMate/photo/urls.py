@@ -1,7 +1,6 @@
 from django.urls import path, include
 from django.conf.urls.static import static
-
-from .views import PhotoDetail, photo_list, photo_search, PhotoLike, my_activity, comment_photo, written_photo, call_ajax
+from .views import PhotoDetail, photo_list, photo_search, PhotoLike, my_activity, comment_photo, written_photo, pagination_ajax
 from django.conf import settings
 
 from . import views
@@ -19,7 +18,8 @@ urlpatterns = [
     path("detail/<int:pk>/",PhotoDetail.as_view(), name='detail'),
     path("edit/<int:pk>/",views.edit, name='edit'),
     path("search/", photo_search, name='search'),
-    path("call_ajax/", call_ajax, name='call_ajax'),
+    path("pagination_ajax/", views.pagination_ajax, name='pagination_ajax'),
+    path("category_ajax/", views.category_ajax, name='category_ajax'),
     path("delete_comment/<int:recomment_id>/<int:photo_id>", views.delete_comment, name='delete_comment'),
     path('create_recomment/<int:comment_id>/<int:photo_id>', views.create_recomment, name="create_recomment"),
 ]
