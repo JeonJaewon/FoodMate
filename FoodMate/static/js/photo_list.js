@@ -77,6 +77,7 @@ function init_category(){
             data: checked,
             success:function(response){
                 articles = JSON.parse(response.articles)
+                console.log(articles)
                 img_urls = response.img_urls
                 console.log("success")
                 $(".article_board").empty()
@@ -105,8 +106,8 @@ function check_category(){  // 어떤 카테고리가 선택되어 있는지 확
 function append_articles(articles, img_urls){  // 게시글 정보 받아서 그려주는 함수
     for(var i = 0; i < articles.length; i++){
         $(".article_board").append(
-            '<div style=\"margin-left: 0px; margin-right:25px; z-index: 1; position:relative; cursor:pointer;\" class=\"article\" onclick =\"location.href=\"{% url '
-            + 'photo:detail ' + articles[i].pk  + ' %}\">'
+            '<div style=\"margin-left: 0px; margin-right:25px; z-index: 1; position:relative; cursor:pointer;\" class=\"article\" onclick =\"location.href=\''
+            + '/detail/' + articles[i].pk  + '/\'\"' +'>'
             + '<img src=\"' + img_urls[i] + '\" class=\"article\">'
             + '<p class=\"area\" style=\"z-index: 3; position: absolute; right: 12px; top: 10px;\">' + articles[i].fields.area + '</p>'
                 + '<div class=\"bg_parent\">'

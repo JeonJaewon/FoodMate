@@ -207,7 +207,7 @@ def category_ajax(request):
 
         img_urls = []
         for i in range(0, result.count()):
-            img_urls.append(InsertedImage.objects.get(photo=result[i]).image.url)
+            img_urls.append(InsertedImage.objects.filter(photo=result[i])[0].image.url)
         articles = serializers.serialize('json', result)
         data = {'articles': articles, 'img_urls': img_urls}
         return JsonResponse(data, safe=False)
