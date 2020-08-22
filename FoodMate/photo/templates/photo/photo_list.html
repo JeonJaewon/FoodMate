@@ -23,7 +23,75 @@
 <div style="margin-top:50px">
     <!--  해당 for문은 data라는 dictionary에서 article은 key, image는 value가 각각 할당되어 반복됨  -->
     <a id="write_button" href="{% url 'photo:create' %}">게시물 작성하기</a>
-    <div id="category_board"></div>
+
+    <div id="category_board">
+         <div class="dropdown">
+              <button type="button" class="category_container" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                카테고리 ∨
+              </button>
+              <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenuButton">
+                <span class="category_des_text">카테고리</span>
+                <li><label><input type="checkbox" name="fruit" class="category_checkbox"><span>과일</span></label></li>
+                <li><label><input type="checkbox" name="vegetable" class="category_checkbox"><span>채소</span></label></li>
+                <li><label><input type="checkbox" name="meat" class="category_checkbox"><span>정육</span></label></li>
+                <li><label><input type="checkbox" name="dairy" class="category_checkbox"><span>계란/유제품</span></label></li>
+                <li><label><input type="checkbox" name="fish" class="category_checkbox"><span>수산/건어물</span></label></li>
+                <li><label><input type="checkbox" name="main_food" class="category_checkbox"><span>쌀/김치/반찬</span></label></li>
+                <li><label><input type="checkbox" name="bakery" class="category_checkbox"><span>베이커리</span></label></li>
+                <li><label><input type="checkbox" name="health_food" class="category_checkbox"><span>가공/건강식품</span></label></li>
+                <li><label><input type="checkbox" name="household" class="category_checkbox"><span>생활용품</span></label></li>
+                <li><label><input type="checkbox" name="dessert" class="category_checkbox"><span>디저트/음료</span></label></li>
+              </ul>
+        </div>
+        <div class="dropdown">
+              <button type="button" class="category_container" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                지역 분류 ∨
+              </button>
+              <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenuButton">
+                <span class="category_des_text">카테고리</span>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+              </ul>
+        </div>
+        <div class="dropdown">
+              <button type="button" class="category_container" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                가격대 ∨
+              </button>
+              <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenuButton">
+                <span class="category_des_text">카테고리</span>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+              </ul>
+        </div>
+        <div class="dropdown">
+              <button type="button" class="category_container" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                정렬 ∨
+              </button>
+              <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenuButton">
+                <span class="category_des_text">카테고리</span>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+                <li><label><input type="checkbox"> Cheese</label></li>
+              </ul>
+        </div>
+    </div>
     <div style="overflow:hidden; margin-top: 28px;" class="article_board">
         {% if data %}
             {% for article, image in data.items %}
@@ -57,7 +125,5 @@
             <div style="position:relative; top:-180px; text-align:center; background-color:transparent; font-weight: bold; font-size: 24px;">검색 결과가 없습니다.</div>
         {% endif %}
     </div>
-
-
 </div>
 {% endblock %}
