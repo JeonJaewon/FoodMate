@@ -356,3 +356,9 @@ def create_recomment(request, comment_id, photo_id):
         filled_form = ReCommentForm()
 
     return render(request, )
+
+def deal(request, photo_id):
+    photo = Photo.objects.get(pk=photo_id)
+    photo.deal = '모집 완료'
+    photo.save()
+    return redirect('photo:detail', photo_id)

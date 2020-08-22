@@ -243,6 +243,7 @@ a:hover { color: blue; text-decoration: underline;}
     background: #E7E7E7;
     border-radius: 7px;
     padding:0px;
+    min-width: 0rem;
 }
 .dropdown-item{
     display:block;

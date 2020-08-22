@@ -3,6 +3,8 @@ from django.db import models
 from django.conf import settings
 from django.urls import reverse
 from django.conf import settings
+from datetime import datetime, timedelta
+from django.utils import timezone
 
 class Category(models.Model):
     food = models.CharField(max_length=50)
@@ -25,10 +27,9 @@ FOOD_CHOICES = [
 ]
 
 FlAG = [
-    ('Y', '모집중'),
-    ('N', '모집완료'),
+    ('모집 중', '모집 중'),
+    ('모집 완료', '모집 완료'),
 ]
-
 
 class Photo(models.Model):
     # 유저
@@ -56,7 +57,6 @@ class Photo(models.Model):
     lat = models.TextField(default='')
     lng = models.TextField(default='')
 
-    # location = models.ForeignKey(, on_delete=models.CASCADE, related_name='user')
     # 찜
     like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_post', blank=True)
     # url
@@ -72,6 +72,22 @@ class Photo(models.Model):
 
     def get_absolute_url(self):
         return reverse('photo:detail', args=[self, id])
+
+    def created_string(self):
+        time = timezone.now() - self.updated
+
+        if time < timedelta(minutes=1):
+            return '방금 전'
+        elif time < timedelta(hours=1):
+            return str(int(time.seconds / 60)) + '분 전'
+        elif time < timedelta(days=1):
+            return str(int(time.seconds / 3600)) + '시간 전'
+        elif time < timedelta(days=7):
+            time = timezone.now().date() - self.updated.date()
+            return str(time.days) + '일 전'
+        else:
+            return self.updated
+
 
 # Photo에 삽입된 이미지
 class InsertedImage(models.Model):
@@ -99,6 +115,21 @@ class Comment(models.Model):
     def __str__(self):
         return f"{self.username}님의 댓글"
 
+    def created_string(self):
+        time = timezone.now() - self.updated
+
+        if time < timedelta(minutes=1):
+            return '방금 전'
+        elif time < timedelta(hours=1):
+            return str(int(time.seconds / 60)) + '분 전'
+        elif time < timedelta(days=1):
+            return str(int(time.seconds / 3600)) + '시간 전'
+        elif time < timedelta(days=7):
+            time = timezone.now().date() - self.updated.date()
+            return str(time.days) + '일 전'
+        else:
+            return self.updated
+
 class ReComment(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
@@ -109,3 +140,18 @@ class ReComment(models.Model):
 
     def __str__(self):
         return self.text
+
+    def created_string(self):
+        time = timezone.now() - self.updated
+
+        if time < timedelta(minutes=1):
+            return '방금 전'
+        elif time < timedelta(hours=1):
+            return str(int(time.seconds / 60)) + '분 전'
+        elif time < timedelta(days=1):
+            return str(int(time.seconds / 3600)) + '시간 전'
+        elif time < timedelta(days=7):
+            time = timezone.now().date() - self.updated.date()
+            return str(time.days) + '일 전'
+        else:
+            return self.updated

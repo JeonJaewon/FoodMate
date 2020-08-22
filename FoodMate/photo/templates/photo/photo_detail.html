@@ -21,10 +21,19 @@
 
     <div class="post_text" style="display: inline-block; margin-bottom: 10px;">
         <div style="text-align: left;">
-            {% if product.deal == "Y" %}
-            <p class="deal_box"> 모집 중 </p>
+            {% if user == product.author %}
+                {% if product.deal == "모집 중" %}
+                    <div class="dropup" style="display: inline-block;">
+                      <button id="deal_button" style="bottom:10px; width: 114px; height: 31px;background: #FFBE00;border: 2px solid #FFBE00;border-radius: 23.5px;font-family: Roboto;font-style: normal;font-weight: bold;font-size: 18px;line-height: 21px;text-align: center;color: #FFFFFF;" type="button" class="btn btn-default" data-toggle="dropdown">{{ product.deal }}</button>
+                      <ul id="hide_box" style="margin:0px; padding: 0px; width: 114px;height: 35px;background: #FFFFFF;border: 2px solid #FFBE00;border-radius: 15.5px;" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+                        <li style="text-align: center;"><a id="un_deal" style="font-family: Roboto;font-style: normal;font-weight: bold;font-size: 18px;line-height: 35px;text-align: right;color: #FFBE00;" href="{% url 'photo:deal' photo_id=product.id %}" tabindex="-1" role="menuitem">모집 완료</a></li>
+                      </ul>
+                    </div>
+                {% else %}
+                <p class="deal_box" class="un_deal_box"> 모집 완료 </p>
+                {% endif %}
             {% else %}
-            <p class="deal_box"> 모집 완료 </p>
+                <p class="deal_box"> {{ product.deal }} </p>
             {% endif %}
             <img style="display: inline-block; margin-left:255px;" src="{% static 'img/comment.png' %}"/>
             <p id="comment_count" style="display: inline-block; margin-top:80px; margin-bottom:16px; width: 20px; height: 29px; padding-left: 7px; font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 20px; line-height: 29px; color: #000000;">{{ comment_count }} </p>
@@ -63,8 +72,8 @@
                 <div>
                     <img style="width: 32px; height: 32px;" src="{% static 'img/flower.png' %}"/>
                     <span style="display:inline-block; margin-left: 10px; height: 20px; font-family: Noto Sans KR; font-style: normal; font-weight: bold; font-size: 20px; line-height: 20px; color: #000000;">{{product.author}}</span>
-                    <span>{{product.time_now }}</span>
-<!--                    <span>{{product.updated}}</span>-->
+                    <span style="display:inline-block; margin-left:15px; height: 17px;font-family: Noto Sans KR;font-style: normal;font-weight: normal;font-size: 12px;line-height: 17px;color: #000000;">{{ product.created_string }}</span>
+
                 </div>
                 <div style="display: inline-block; margin-top: 24px; width: 63px; height: 23px; font-family: Noto Sans KR; font-style: normal; font-weight: bold; font-size: 16px; line-height: 23px; color: #000000;">거래 위치</div>
                 <div style="display: inline-block; margin-top: 7px; width: 178px; height: 46px; font-family: Noto Sans KR; font-style: normal; font-weight: normal; font-size: 16px; line-height: 23px; color: #000000;">{{product.area}}</div>
@@ -76,11 +85,13 @@
                     <button style="background-color: white; border: 0px; width: 30px;" class="menu_button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           <img style="display: inline-block; width: 30px;" src="{% static 'img/menu.png' %}"/>
                     </button>
+                    {% if user == product.author %}
                     <div class="dropdown-menu" x-placement="right-start" style="position: absolute; transform: translate3d(111px, 0px, 0px); top: 0px; left: 0px; will-change: transform;">
                         <a class="dropdown-item" href="{% url 'photo:edit' pk=product.id %}">수정하기</a>
                         <hr style="width: 130px; border: 1px solid #FFFFFF; margin: 0 auto; margin-top: 5px;">
                         <a class="dropdown-item" href="{% url 'photo:delete' pk=product.id %}">삭제하기</a>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -88,14 +99,14 @@
 
     <hr style="width: 1041px; border: 1px solid #000000; margin: 0 auto;">
 
-    <div style="width: 1037px; margin: 0 auto; margin-bottom: 98px;">
+    <div style="width: 1037px; margin: 0 auto; margin-bottom: 98px;" class="parent_comment">
         {% for commentList in comment.all %}
         {% if product == commentList.photo %}
             <div style="margin-top: 17px; text-align: left;" class="one_comment">
                 <div>
                     <img style="margin-left: 25px; width: 40.73px; height: 40.73px;" src="{% static 'img/user_photo.png' %}"/>
                     <span class="nickname" style="display: inline-block; margin-left: 22.27px;"> {{ commentList.username }}</span>
-                    <span class="time" style="display: inline-block; margin-left: 13px;"> {{ commentList.updated }}</span>
+                    <span class="time" style="display: inline-block; margin-left: 13px;"> {{ commentList.created_string }}</span>
                 </div>
                 <div class="comment_box" style="display: inline-block; margin-top: 10px; margin-left:90px;">
                     {{ commentList.text }}
@@ -117,18 +128,20 @@
                         <img style="display: inline-block; width: 31.76px; height: 24.24px; margin-left:150px;" src="{% static 'img/arrow.png' %}"/>
                         <img style="margin-left: 25px; width: 40.73px; height: 40.73px;" src="{% static 'img/user_photo.png' %}"/>
                         <span class="nickname" style="display: inline-block; margin-left: 22.27px;"> {{ re_commentList.username }}</span>
-    <!--                    <span class="time" style="display: inline-block; margin-left: 13px;"> {{ commentList.updated }}</span>-->
+                        <span class="time" style="display: inline-block; margin-left: 15px; margin-right:16px;" > {{ re_commentList.created_string }}</span>
                         <span class="user_comment_box"> {{ re_commentList.text }} </span>
 
                         <div class="btn-group dropleft" style="">
                             <button style="background-color: white; border: 0px; width: 30px;" class="menu_button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                    <img style="" src="{% static 'img/comment_menu.png' %}"/>
                             </button>
+                            {% if user == re_commentList.username %}
                             <div class="dropdown-menu" x-placement="right-start" style="position: absolute; transform: translate3d(111px, 0px, 0px); top: 0px; left: 0px; will-change: transform;">
                                 <a class="dropdown-item">수정하기</a>
                                 <hr style="width: 130px; border: 1px solid #FFFFFF; margin: 0 auto; margin-top: 5px;">
                                 <a class="dropdown-item" href="{% url 'photo:delete_comment' recomment_id=re_commentList.id photo_id=product.id %}">삭제하기</a>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                 {% endif %}
