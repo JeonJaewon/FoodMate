@@ -4,36 +4,36 @@
 {% block content %}
 <head>
     <link rel="stylesheet" href="{% static 'css/photo_create.css' %}">
+    <script type="text/javascript" src="{% static 'js/photo_create.js' %}"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df37e89ac92fde8fd129e706be001d3e"></script>
     <script>
         var openWin;
-
          function show_map(){
             window.name = "parentForm";
             openWin = window.open('{% url 'map:popup' %}','find','top=167px, left=389px, height=470px, width=480px')
          }
+         $(".img_cotainer").next().hide();
     </script>
 </head>
         <div id="container">
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
+                <div style="width: 1060px; height: 660px; margin: 0 auto;">
                 <div id="photo_box">
-                    <div style="position: absolute; width: 214px; height: 215px; left: 27px; top: 21px; background: #E7E7E7;">
-                        {{ image_formset.as_p }}
-                        <div style="line-height: 215px;">
-                            <img align="center" src="{% static "img/Group.png" %}"/>
-                        </div>
-                    </div>
-                    <div class="heading10" style="position: absolute; width: 29px; height: 26px; left: 240px;
-top: 536px;">
+                    <label id="label1" for="id_inserted_image-0-image"><img id="preview_id_inserted_image-0-image" style="width: 214px; height: 215px;" src="{% static "img/insert_img.png" %}"/></label>
+                    <label id="label2" for="id_inserted_image-1-image" style="display: none;"><img id="preview_id_inserted_image-1-image" style="width: 214px; height: 215px;" src="{% static "img/insert_img.png" %}"/></label>
+                    <label id="label3" for="id_inserted_image-2-image" style="display: none;"><img id="preview_id_inserted_image-2-image" style="width: 214px; height: 215px;" src="{% static "img/insert_img.png" %}"/></label>
+                    <label id="label4" for="id_inserted_image-3-image" style="display: none;"><img id="preview_id_inserted_image-3-image" style="width: 214px; height: 215px;" src="{% static "img/insert_img.png" %}"/></label>
+<!--                        {{ image_formset.as_p }}-->
+                    <div class="heading10" id="img_count" style="position: absolute; width: 29px; height: 26px; left: 240px;top: 536px;">
                         0/4
                     </div>
                     <div class="heading1" style="position: absolute;width: 120px;height: 20px;left: 194px; top: 569px;">
                         사진을 추가해주세요
                     </div>
                 </div>
-                <div style="position:relative; overflow:hidden; display:inline-block; height: 652px; width: 547px;">
-                    <input type="submit" value="저장" class="submit_button">
+                <div style="position:relative; overflow:hidden; float:left; height: 652px; width: 547px;">
+                    <input type="submit" value="저장" class="submit_button" style="margin-top: 90px;">
                     <div style="position:relative">
                         <span style="position:absolute; left: 110px; top: 97px;" class="number_font">개</span>
                         <span style="position:absolute; left: 250px; top: 97px;" class="number_font">원</span>
@@ -41,14 +41,19 @@ top: 536px;">
                         <div style="position:absolute; left:43px; top: 320px; width: 490px; height: 220px; background: #F9F9F9; border-radius: 5px;">
                             <div style="position:relative;">
                                 <div>
-                                    <a onclick="show_map()"><img style="float: left; margin-left: 30px; margin-top: 12px; width: 207px; height: 197px;" src="{% static "img/find_area.png" %}"/></a>
+                                    <a onclick="show_map()" id="show_map"><img style="float: left; margin-left: 30px; margin-top: 12px; width: 207px; height: 197px;" src="{% static "img/find_area.png" %}"/></a>
                                 </div>
                                 <div style="position:absolute; right: 157px; top: 80px;" class="area_font">거래 위치</div>
                             </div>
                         </div>
-
                         {{ photo_form.as_p }}
                     </div>
+                </div>
+                </div>
+                <div style="position:relative; width: 1060px;
+height: 47px; margin: 0 auto;">
+                    <input name="url" type="url" class="url_box" placeholder="상품의 본 판매사이트 링크를 입력해주세요">
+                    <p style="position:absolute; right:10px; top: 7.5px;width: 102px;height: 31px;background: #FFBE00;border-radius: 15.5px;font-family: Noto Sans KR;font-style: normal;font-weight: normal;font-size: 18px;line-height: 31px;text-align: center;color: #FFFFFF;">URL</p>
                 </div>
             </form>
         </div>

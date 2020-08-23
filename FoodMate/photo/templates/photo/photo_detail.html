@@ -111,7 +111,7 @@
                 <div class="comment_box" style="display: inline-block; margin-top: 10px; margin-left:90px;">
                     {{ commentList.text }}
                 </div>
-                <div class="btn-group dropleft" style="">
+                <div class="btn-group dropleft" style="float:right;">
                     <button style="background-color: white; border: 0px; width: 30px;" class="menu_button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img style="" src="{% static 'img/comment_menu.png' %}"/>
                     </button>
@@ -119,6 +119,14 @@
                         <p class="create_recomment" style="margin: 0px;"><a class="dropdown-item">답글달기</a></p>
                         <hr style="width: 130px; border: 1px solid #FFFFFF; margin: 0 auto; margin-top: 5px;">
                         <a class="dropdown-item" href="">신고하기</a>
+                    </div>
+                    <div class="form_recomment" style=" display: none; position: relative;">
+                        <form method="post" action="{% url 'photo:create_recomment' comment_id=commentList.id photo_id=product.id %}">
+                            {%csrf_token%}
+                            {{ recomment_form.as_p }}
+                            <input type="hidden" name="comment" value="{{ product.id }}" style="width: 800px;">
+                            <input type="submit" value="보내기" class="comment_button">
+                        </form>
                     </div>
                 </div>
             </div>
@@ -129,9 +137,9 @@
                         <img style="margin-left: 25px; width: 40.73px; height: 40.73px;" src="{% static 'img/user_photo.png' %}"/>
                         <span class="nickname" style="display: inline-block; margin-left: 22.27px;"> {{ re_commentList.username }}</span>
                         <span class="time" style="display: inline-block; margin-left: 15px; margin-right:16px;" > {{ re_commentList.created_string }}</span>
-                        <span class="user_comment_box"> {{ re_commentList.text }} </span>
+                        <span class="user_comment_box">{{ re_commentList.text }} </span>
 
-                        <div class="btn-group dropleft" style="">
+                        <div class="btn-group dropleft" style="float:right;">
                             <button style="background-color: white; border: 0px; width: 30px;" class="menu_button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                    <img style="" src="{% static 'img/comment_menu.png' %}"/>
                             </button>
@@ -141,19 +149,12 @@
                                 <hr style="width: 130px; border: 1px solid #FFFFFF; margin: 0 auto; margin-top: 5px;">
                                 <a class="dropdown-item" href="{% url 'photo:delete_comment' recomment_id=re_commentList.id photo_id=product.id %}">삭제하기</a>
                             </div>
+
                             {% endif %}
                         </div>
                     </div>
                 {% endif %}
             {% endfor %}
-            <div class="form_recomment" style="display: none; position: relative;">
-                <form method="post" action="{% url 'photo:create_recomment' comment_id=commentList.id photo_id=product.id %}">
-                    {%csrf_token%}
-                    {{ recomment_form.as_p }}
-                    <input type="hidden" name="comment" value="{{ product.id }}">
-                    <input type="submit" value="보내기" class="comment_button">
-                </form>
-            </div>
         {% endif %}
         {% endfor %}
 

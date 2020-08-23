@@ -11,7 +11,8 @@ class PhotoForm(forms.ModelForm):
             'title': forms.TextInput(
                 attrs={
                     'class': 'title_box',
-                    'placeholder': '제목을 입력하세요.(13자)'
+                    'placeholder': '제목을 입력하세요.(13자)',
+                    'id': 'title'
                 }
             ),
             'count': forms.NumberInput(

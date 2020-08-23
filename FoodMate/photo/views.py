@@ -57,21 +57,18 @@ def create(request):
 
 @login_required #오류 수정해야합니다...
 def edit(request, pk):
-    photo = Photo.objects.get(pk=pk)
-
+    photo = Photo.objects.get(id=pk)
     if request.method == 'POST':
         photo_form = PhotoForm(instance=photo)
-        image_formset = ImageFormSet()
-        if photo_form.is_valid() and image_formset.is_valid():
-            photo.save()
-            image_formset.save()
+        if photo_form.is_valid():
+            photo.title = photo_form.cleaned_data['title']
+            photo_form.save()
             return redirect('photo:list')
     else:
-        photo_form = PhotoForm(instance=photo)
-        image_formset = ImageFormSet()
+        photo_form = PhotoForm()
+
     return render(request, 'photo/photo_edit.html', {
         'photo_form': photo_form,
-        'image_formset': image_formset,
     })
 
 def delete(request, pk):
@@ -392,3 +389,8 @@ def deal(request, photo_id):
     photo.deal = '모집 완료'
     photo.save()
     return redirect('photo:detail', photo_id)
+
+def comment_update(request, comment_id, photo_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    if request.user == comment.username:
+        form = CommentForm()

@@ -7,6 +7,10 @@ $(document).ready(function(){
           cssEase: 'linear' //css easing 모션 함수
     });
     $('.create_recomment').click(function(){
-        $('.form_recomment').show();
+        $(this).closest("div").next().show();
+//        $('.form_recomment').show();
     });
+//    $('.update_button').click(function(){
+//        $(this).closest("div").closest("div").prev().children().attr('disabled', false);
+//    });
 });
