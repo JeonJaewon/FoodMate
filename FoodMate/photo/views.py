@@ -390,7 +390,10 @@ def deal(request, photo_id):
     photo.save()
     return redirect('photo:detail', photo_id)
 
-def comment_update(request, comment_id, photo_id):
-    comment = get_object_or_404(Comment, pk=comment_id)
-    if request.user == comment.username:
-        form = CommentForm()
+def comment_update(request, recomment_id, photo_id):
+    comment = get_object_or_404(ReComment, pk=recomment_id)
+    if request.method == 'POST':
+        form = ReCommentForm(instance=comment)
+        comment.text = request.POST['recomment']
+        comment.save()
+        return redirect('photo:detail', photo_id)

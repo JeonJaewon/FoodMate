@@ -7,6 +7,8 @@
 <head>
     <script type="text/javascript" src="{% static 'js/photo_detail.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/photo_detail.css' %}"/>
+    <script>
+    </script>
 </head>
 <div id="container">
     <div class="image_list"  style="float:left; height: 652px; width: 507px; border-radius: 5px; borer: 0 solid white; margin:0px;">
@@ -137,19 +139,24 @@
                         <img style="margin-left: 25px; width: 40.73px; height: 40.73px;" src="{% static 'img/user_photo.png' %}"/>
                         <span class="nickname" style="display: inline-block; margin-left: 22.27px;"> {{ re_commentList.username }}</span>
                         <span class="time" style="display: inline-block; margin-left: 15px; margin-right:16px;" > {{ re_commentList.created_string }}</span>
-                        <span class="user_comment_box">{{ re_commentList.text }} </span>
-
+<!--                        <span class="user_comment_box">{{ re_commentList.text }} </span>-->
+                        <div style="display: inline-block;">
+                            <form method="post" action="{% url 'photo:comment_update' recomment_id=re_commentList.id photo_id=product.id %}">
+                                {%csrf_token%}
+                                <input class="user_comment_box" type="text" name="recomment" disabled style="width: 558px; border: 0px;" value="{{ re_commentList.text }}">
+                                <input type="submit" value="보내기" class="comment_button">
+                            </form>
+                        </div>
                         <div class="btn-group dropleft" style="float:right;">
                             <button style="background-color: white; border: 0px; width: 30px;" class="menu_button" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                    <img style="" src="{% static 'img/comment_menu.png' %}"/>
                             </button>
                             {% if user == re_commentList.username %}
                             <div class="dropdown-menu" x-placement="right-start" style="position: absolute; transform: translate3d(111px, 0px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                <a class="dropdown-item">수정하기</a>
+                                <a class="dropdown-item change_disable">수정하기</a>
                                 <hr style="width: 130px; border: 1px solid #FFFFFF; margin: 0 auto; margin-top: 5px;">
                                 <a class="dropdown-item" href="{% url 'photo:delete_comment' recomment_id=re_commentList.id photo_id=product.id %}">삭제하기</a>
                             </div>
-
                             {% endif %}
                         </div>
                     </div>

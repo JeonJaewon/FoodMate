@@ -120,7 +120,8 @@ class ReCommentForm(forms.ModelForm):
             'text': forms.TextInput(
                 attrs={
                     'class': 're_text_box',
-                    'placeholder': '답글을 입력하세요'
+                    'placeholder': '답글을 입력하세요',
+                    'id': 'recomment',
                 }
             )
         }
