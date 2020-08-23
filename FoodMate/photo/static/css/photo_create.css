@@ -6,15 +6,16 @@
 
 }
 #photo_box{
-    display:inline-block;
+    float: left;
     position: relative;
     height: 652px;
     width: 507px;
-
+    padding-left: 24px;
     background: #F9F9F9;
     border: 1px solid #FFBE00;
     box-sizing: border-box;
     border-radius: 5px;
+    text-align: left;
 }
 
 
@@ -226,4 +227,25 @@
     line-height: 23px;
 
     color: #000000;
+}
+p label{
+    display: none;
+}
+p input[type="checkbox"]{
+    display: none;
+}
+input[type="file"]{
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0;
+}
+
+label {
+    width: 214px;
+    height: 215px;
+    margin-top: 21px;
+    margin-right: 24px;
+    display: inline-block;
+    margin-left: 0px;
+    vertical-align: middle;
+    cursor: pointer;
+
 }

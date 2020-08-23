@@ -1,13 +1,13 @@
 {{ form.media }}
 
-<div class="img_cotainer" style="display: flex; align-items: center;">
+<div class="img_cotainer" style="display: none; align-items: center; width: 214px; height: 215px;">
 
     {% if widget.value %}
-        <img id="current_{{widget.attrs.id}}" src="{{ widget.value.url }}" style="width:100px; height:100px;">
+        <img id="current_{{widget.attrs.id}}" src="{{ widget.value.url }}" width="214px" height="215px">
 
     {% endif %}
 
-    <img id="preview_{{ widget.attrs.id }}" style="width: 100px; height:100px; display: none;">
+    <img id="preview_{{ widget.attrs.id }}" style="width: 214px; height:215px; display: none;">
 
     {% include "admin/widgets/clearable_file_input.html" %}
 </div>

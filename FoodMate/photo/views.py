@@ -163,16 +163,24 @@ def photo_list(request):  # 카테고리, 지역에 따라 list가 다릅니다\
 
 
 @csrf_exempt
-def call_ajax(request):
+def pagination_ajax(request):
     if request.method == 'POST':
         response_json = request.POST
         response_json = json.dumps(response_json)
         data = json.loads(response_json)  # ajax에서 넘겨주는 값을 받아옴
 
         counter = int(data['counter'])
+        checked = data['checked']
+        result = Photo.objects.none()
+        for key in data:
+            if data[key] == 'true':
+                result = result | Photo.objects.filter(category=key)  # queryset 합치기
+
+
         start_index = counter - 10  # 몇개씩 가져올것인지 설정, 지금은 10개. photo_list.js와 동시에 수정해줘야함
         end_index = counter
-        tmp = Photo.objects.all()[start_index:end_index - 1]
+        # tmp = Photo.objects.all()[start_index:end_index - 1]
+        tmp = result[start_index:end_index - 1]
         if not tmp.exists():  # 쿼리한 결과 더 읽어올 글이 없다면
             return JsonResponse({'status': 'false', 'message': 'No more contents to show'}, status=404)
         img_urls = []
@@ -183,6 +191,27 @@ def call_ajax(request):
         data = {'articles': articles, 'img_urls': img_urls}
         return JsonResponse(data, safe=False)
     return JsonResponse({'status': 'false', 'message': 'This call only support POST method'}, status=400)
+
+
+@csrf_exempt
+def category_ajax(request):
+    if request.method == 'POST':
+        response_json = request.POST
+        response_json = json.dumps(response_json)
+        data = json.loads(response_json)
+
+        result = Photo.objects.none()
+        for key in data:
+            if data[key] == 'true':
+                result = result | Photo.objects.filter(category=key)  # queryset 합치기
+
+        img_urls = []
+        for i in range(0, result.count()):
+            img_urls.append(InsertedImage.objects.filter(photo=result[i])[0].image.url)
+        articles = serializers.serialize('json', result)
+        data = {'articles': articles, 'img_urls': img_urls}
+        return JsonResponse(data, safe=False)
+    return JsonResponse(None, safe=False)
 
 
 def photo_search(request):
