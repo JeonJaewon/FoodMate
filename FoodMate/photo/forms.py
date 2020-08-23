@@ -1,6 +1,6 @@
 from django import forms
 from .models import Photo, InsertedImage, Comment, ReComment
-
+from .widgets import PreviewFileWidget
 
 class PhotoForm(forms.ModelForm):
     class Meta:
@@ -72,20 +72,23 @@ class PhotoForm(forms.ModelForm):
 
 
 class InsertedImageForm(forms.ModelForm):
-    # image = forms.ImageField(label='')
     class Meta:
         model = InsertedImage
         fields = ['image', ]
         widgets = {
-            'image': forms.FileInput(
-                attrs={
-                    'class': 'input_box',
-                }
-            )
+            'image': PreviewFileWidget,
         }
         labels = {
             'image': '',
         }
+        # widgets = {
+        #     'image': forms.FileInput(
+        #         attrs={
+        #             'class': 'input_box',
+        #         }
+        #     )
+        # }
+
 
 
 class CommentForm(forms.ModelForm):

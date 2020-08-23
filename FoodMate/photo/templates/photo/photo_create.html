@@ -8,11 +8,11 @@
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df37e89ac92fde8fd129e706be001d3e"></script>
     <script>
         var openWin;
-
          function show_map(){
             window.name = "parentForm";
             openWin = window.open('{% url 'map:popup' %}','find','top=167px, left=389px, height=470px, width=480px')
          }
+         $(".img_cotainer").next().hide();
     </script>
 </head>
         <div id="container">

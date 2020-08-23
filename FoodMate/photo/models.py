@@ -5,6 +5,8 @@ from django.urls import reverse
 from django.conf import settings
 from datetime import datetime, timedelta
 from django.utils import timezone
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 
 class Category(models.Model):
     food = models.CharField(max_length=50)
@@ -43,9 +45,9 @@ class Photo(models.Model):
     # 카테고리
     category = models.CharField(max_length=50, choices=FOOD_CHOICES, default = '')
     # 개수
-    count = models.IntegerField(default=0)
+    count = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(99)], default=0)
     # 금액
-    money = models.IntegerField(default=0)
+    money = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(99999)], default=0)
     # 작성 시간
     created = models.DateTimeField(auto_now_add=True)
     # 수정 시간

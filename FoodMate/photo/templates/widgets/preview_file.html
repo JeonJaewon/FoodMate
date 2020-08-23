@@ -1,0 +1,29 @@
+{{ form.media }}
+
+<div class="img_cotainer" style="display: flex; align-items: center;">
+
+    {% if widget.value %}
+        <img id="current_{{widget.attrs.id}}" src="{{ widget.value.url }}" style="width:100px; height:100px;">
+
+    {% endif %}
+
+    <img id="preview_{{ widget.attrs.id }}" style="width: 100px; height:100px; display: none;">
+
+    {% include "admin/widgets/clearable_file_input.html" %}
+</div>
+
+<script>
+    $(function(){
+        $('#{{ widget.attrs.id }}').change(function(){
+
+            if (this.files[0]){
+                var reader = new FileReader();
+                reader.readAsDataURL(this.files[0]);
+                reader.onload = function(e){
+                    $('#preview_{{widget.attrs.id}}').attr('src', e.target.result).show();
+                    $('#current_{{widget.attrs.id}}').hide()
+                };
+            }
+        })
+    })
+</script>
