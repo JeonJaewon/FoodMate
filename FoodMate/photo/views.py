@@ -167,11 +167,16 @@ def pagination_ajax(request):
         data = json.loads(response_json)  # ajax에서 넘겨주는 값을 받아옴
 
         counter = int(data['counter'])
-        checked = data['checked']
+        checked = json.loads(data['checked'])
         result = Photo.objects.none()
-        for key in data:
-            if data[key] == 'true':
+
+        ifNoneChecked = 'true'
+        for key in checked:
+            if checked[key] == 'true':
                 result = result | Photo.objects.filter(category=key)  # queryset 합치기
+                ifNoneChecked = 'false'
+        if ifNoneChecked == 'true':
+            result = Photo.objects.all()
 
 
         start_index = counter - 10  # 몇개씩 가져올것인지 설정, 지금은 10개. photo_list.js와 동시에 수정해줘야함

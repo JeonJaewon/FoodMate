@@ -28,13 +28,17 @@ function init_hover(){
     });
 }
 function init_see_more_btn(){
-    if($('.article').length < 10)
+    if($('.article').length < 11){
+        console.log("dd")
         return
+    }
+
 
     let counter = $('.article_board').children().length;
     $('.article_board').append('<div class="article" id="see_more_btn_container"><img id="see_more_btn" src="static/img/see_more_btn.png"></div>')
     $("#see_more_btn").click(function(){
         checked = check_category()
+        checked = JSON.stringify(checked)
         counter = counter + 10;  // 개수 변경시 변경
         info = {"counter": counter, "checked": checked}
         $.ajax({
@@ -56,7 +60,7 @@ function init_see_more_btn(){
             success: function(response){ // 호출 성공시
                 articles = JSON.parse(response.articles)
                 img_urls =  response.img_urls
-                append_articles(append_articles(articles, img_urls))
+                append_articles(articles, img_urls)
                 $('#see_more_btn_container').remove();
                 init_hover() // 다시 호출해줘야 호버 효과 적용됨
                 init_see_more_btn();
@@ -82,7 +86,6 @@ function init_category(){
                 console.log("success")
                 $(".article_board").empty()
                 append_articles(articles, img_urls)
-                $('#see_more_btn_container').remove();
                 init_hover() // 다시 호출해줘야 호버 효과 적용됨
                 init_see_more_btn();
                 draw_no_data_img();
@@ -104,6 +107,7 @@ function check_category(){  // 어떤 카테고리가 선택되어 있는지 확
 }
 
 function append_articles(articles, img_urls){  // 게시글 정보 받아서 그려주는 함수
+    console.log(articles)
     for(var i = 0; i < articles.length; i++){
         $(".article_board").append(
             '<div style=\"margin-left: 0px; margin-right:25px; z-index: 1; position:relative; cursor:pointer;\" class=\"article\" onclick =\"location.href=\''
@@ -131,6 +135,7 @@ function append_articles(articles, img_urls){  // 게시글 정보 받아서 그
                 + '</div>'
             + '</div>')
     }
+    $('#see_more_btn_container').remove();
 }
 
 function draw_no_data_img(){
