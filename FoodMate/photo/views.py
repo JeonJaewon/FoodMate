@@ -27,6 +27,7 @@ from django.db.models import Count
 from django.http import HttpResponseForbidden
 from urllib.parse import urlparse
 from django.core.exceptions import ObjectDoesNotExist
+from accounts.models import User, Alarm
 
 import json
 
@@ -136,6 +137,11 @@ class PhotoDetail(LoginRequiredMixin, FormMixin, DetailView):
                                           pk=self.object.pk)  # photo object를 call하여 photocomment의 photo로 설정(댓글이 속할 게시글 설정) pk로 pk설정 pk - photo id
         comment.username = self.request.user  # 댓글쓴 사람 설정.
         comment.save()  # 수정된 내용대로 저장. 쿼리실행
+        article_writer = User.objects.get(photos=comment.photo)  # 글쓴이의 정보를 받아옴 (알람 생성 목적)
+        # 댓글쓴이와 글쓴이가 동일하지 않다면 알람 생성
+        if article_writer != comment.username:
+            alarm = Alarm(user=article_writer, comment=comment)
+            alarm.save()
         return super(PhotoDetail, self).form_valid(form)
 
 

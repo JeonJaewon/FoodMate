@@ -34,7 +34,7 @@
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
             <div id="alarm_title">알림</div>
-            {% if alarm not in request.user.alarms.all %}
+            {% if not request.user.alarms.all %}
               알림이 없습니다.
             {% endif %}
             {% for alarm in request.user.alarms.all %}
