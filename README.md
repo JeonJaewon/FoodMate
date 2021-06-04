@@ -4,31 +4,14 @@
 
 - 1인 가구 수 늘어남에 따라, 식자재 공동구매의 수요 증가
 - 식자재를 공동구매 해 합리적인 가격에 원하는 양만큼 구매하고자 하는 소비자 니즈 충족
-
-## 실행 화면
-
-- ## 메인 페이지
-<img src="https://blog.kakaocdn.net/dn/bhsoRw/btqS6XYlinW/budYVFRTmKEFAJMNuy039k/img.png"></img>
-
-
-- ## 컨텐츠 카테고리 기능 (AJAX)
-<img src="https://blog.kakaocdn.net/dn/cRDO4E/btqThYBQKta/H1JWJuEgCTnzyD4btqsCu0/img.png"></img>
-
-
-- ## 게시글 작성
-<img src="https://blog.kakaocdn.net/dn/cYqAz6/btqS6WSG80U/5C6grHrdTtCW59YzBW2ae0/img.png"></img>
-
-
-- ## 위치 지정 (카카오 API 활용)
-<img src="https://blog.kakaocdn.net/dn/SwM2K/btqS6X43b6r/uKHsj2HQ7qwgO1V3ToO7nK/img.png"></img>
-
-
-- ## 댓글 작성
-<img src="https://blog.kakaocdn.net/dn/cawuJL/btqTcQK8xjh/ZiNlcaZ9zbFU2C3jfIeUJK/img.png"></img>
-
-
-- ## 댓글 알림 기능
-<img src="https://blog.kakaocdn.net/dn/DfLG0/btqTkgorRx6/uCBSw8CMdgdOLr9wrSqPS0/img.png"></img>
+<br>
+<img src="https://blog.kakaocdn.net/dn/D3qrg/btq6wyShb4Y/oR0CPSEItYMuEKSeWP7X0K/img.png" />
+<img src="https://blog.kakaocdn.net/dn/bjiMS3/btq6xZhPWpL/PL9msPIRJmJnQcRUJ3HjO0/img.png" />
+<img src="https://blog.kakaocdn.net/dn/ciYQ1L/btq6AuOdb2d/7UPCHEqYrCFZJB5RW88k2k/img.png" />
+<img src="https://blog.kakaocdn.net/dn/9xtaO/btq6zqlLwq5/rEJ02IAunvBC6m98SFK43k/img.png" />
+<img src="https://blog.kakaocdn.net/dn/bcru8h/btq6AuOdaeb/eJdGwKke2P5nku7VZwr0qk/img.png" />
+<img src="https://blog.kakaocdn.net/dn/XerwB/btq6xZWtWkR/eZVI2yKBl80knyPvfG9Fw0/img.png" />
+<img src="https://blog.kakaocdn.net/dn/cKNbd1/btq6APR9cqS/FejtfgjkM9efK8pm5ZRkH0/img.png" />
 
 
 ## 개발 환경
